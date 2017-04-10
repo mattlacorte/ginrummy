@@ -51,6 +51,9 @@ int main()
 				//determine what cards are DEADWOOD. Randomly discard one
 	
 
+	//function to store player points
+	
+	
 	//to KNOCK, DEADWOOD ust be less than 10. Function to check this
 
 
