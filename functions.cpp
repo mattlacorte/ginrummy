@@ -33,7 +33,7 @@
 	 //overload == operator
  };
 
- void OrderedInit(/*****VECTOR of type CARD*****/ vector<Card> &c){
+ void OrderedInit(vector<Card> &c){
 
 	 //initialize 52 cards, in order
 		//uses nested for loops
@@ -62,42 +62,51 @@
 	 }
  }
 
- void CardShuffle(/*****VECTOR of type CARD*****/ vector<Card> &c){
+ void CardShuffle(vector<Card> &c){
 
 	 vector<Card> temp(52);		//creates second vector as temp storage
 		
-	 for (int i = 0; i < 52; i++) {		//temp = init vector
+	 for (int i = 0; i < 52; i++) {		//temp = initial vector
 		 temp[i] = c[i];
 		}
 
 		//randomly assign temp vals to the passed vector
 
-	 int shuffledOrder[52];
-	 int tempShuffleVal;
-	 bool checkRepeat;
+	 int shuffledOrder[52];		//stores location of where shuffled order will go to
+	 int tempShuffleVal;		//stores temp int val
+	 bool checkRepeat;			//used to check iif random number has been previouslt used
 
-	 for (int i = 0; i < 52; i++) {					//RECHECK THIS FOR LOGIC ERRORS***************************
+	 for (int i = 0; i < 52; i++) {								//for all the cards
 
 		 do {
+			 checkRepeat = false;
 
-			 tempShuffleVal = (rand() % 52) + 1;
+			 tempShuffleVal = (rand() % 52) + 1;				//generate a random position
 
-			 for (int j = 0; j < i; j++) {
-				 if (tempShufleVal = shuffleOrder[i]) {
-					 checkRepeat = true;
-					 break;
+			 for (int j = 0; j < i; j++)						//make sure that
+				 if (tempShuffleVal == shuffledOrder[i]) {		//the temp val
+					 checkRepeat = true;						//is not previously used
 				 }
 			 }
-		 } while (checkRepeat);	//checkRepeat = true if there is a repeat
 
-		 shuffledOrder[i] = tempShuffleVal;
+			 shuffledOrder[i] = tempShuffleVal;					//if not used, the assigned value will stay
+
+		 } while (checkRepeat);									//if used, the process repeats
+			
+	 }
+
+	 vector<Card> *shuf(52);		//declares new vector for the shuffled 
+
+	 for (int i = 0; i < 52; i++) {
+		 shuf((shuffledOrder[i])) = c(i);
+	 }
 
 		 //assign new card order to shuffled vector
 
 
  }
  
- int startingDraw(/*****VECTOR of type CARD*****/ vector<Card> &c){
+ int startingDraw(vector<Card> &c){
 
 	 //user chooses 1-52 as if picking a card from a hand
 		//computer picks a card as well. NOT THE SAME AS USER
