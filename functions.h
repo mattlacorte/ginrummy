@@ -5,7 +5,7 @@
  */
 
 #ifndef FUNCTIONS_H
-#define FFUNCTIONS_H
+#define FUNCTIONS_H
 
 
 //declare all functions here
