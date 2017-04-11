@@ -30,6 +30,7 @@
 	 //gin check
 
 	 //overloaded >= operator
+	 //overload == operator
  };
 
  void OrderedInit(/*****VECTOR of type CARD*****/ vector<Card> &c){
