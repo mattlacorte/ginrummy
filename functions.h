@@ -68,7 +68,13 @@ int myRandom(int i);
 
 void vectorShuffle(vector<Card> &c);
 
+<<<<<<< refs/remotes/origin/master
 int startingDraw(vector<Card> &c);
+=======
+void dealCards();
+
+string PrintCard(Card temp);
+>>>>>>> Added Deal Function
 
 void dealCards(Hand &comp, Hand &user, vector<Card> &c);
 
