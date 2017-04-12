@@ -69,9 +69,13 @@ int myRandom(int i);
 void vectorShuffle(vector<Card> &c);
 
 <<<<<<< refs/remotes/origin/master
+<<<<<<< refs/remotes/origin/master
 int startingDraw(vector<Card> &c);
 =======
 void dealCards();
+=======
+void dealCards(vector<Card> &AI, vector<Card> &Human, vector<Card> &c);
+>>>>>>> Merge branch 'Alfred'
 
 string PrintCard(Card temp);
 >>>>>>> Added Deal Function
