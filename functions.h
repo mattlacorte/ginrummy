@@ -35,10 +35,8 @@ int startingDraw(/*****VECTOR of type CARD*****/ vector<Card> &c);
 
 string PrintCard(Card temp);
 
-
-
-
-
+void mainMenu();
+void instructions();
+void clear();
 
 #endif
-
