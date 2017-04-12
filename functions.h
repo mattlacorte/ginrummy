@@ -20,25 +20,39 @@ private:
 public:
 	Card(int progSuit, int progFace, int progVal);
 	//sort function
-	//deadwood check
-	//knock check
-	//gin check
+	deadwoodCheck(vector<Card> &c);
+	knockCheck(vector<Card> &c);
+	ginCheck(vector<Card> &c);
 
 	//overloaded >= operator
+	//overloaded == operator
+	//overloaded << operator
 };
 
-void OrderedInit(/*****VECTOR of type CARD*****/ vector<Card> &c);
+Card::Card(int progSuit, int progFace, int progVal);
 
-void CardShuffle(/*****VECTOR of type CARD*****/ vector<Card> &c);
+//sort function
 
-int startingDraw(/*****VECTOR of type CARD*****/ vector<Card> &c);
+Card::deadwoodCheck();
 
-string PrintCard(Card temp);
+Card::knockCheck();
 
+Card::ginCheck();
 
+void OrderedInit(vector<Card> &c);
 
+int myRandom(int i);
 
+void vectorShuffle(vector<Card> &c);
 
+int startingDraw(vector<Card> &c);
+
+string printCard(Card temp);
+
+void mainMenu();
+
+void instructions();
+
+void clear();
 
 #endif
-
