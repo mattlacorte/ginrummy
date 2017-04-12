@@ -106,7 +106,7 @@
 	 //return user or comp
  }
 
- void DealCards(vector<int> AI, vector<int> Human, vector<int> Card) {
+ void dealCards(vector<Card> &AI, vector<Card> &Human, vector<Card> &c) {
 	 int j = 0;
 	 for (int i = 0; i <= 10; i++, j = j + 2) {			//iterates 10 times to fill the hand of the AI
 		 AI.at(i) = Card.at(j);
