@@ -6,6 +6,8 @@
 *
 */
 
+//Random Comment
+
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
@@ -25,20 +27,18 @@ public:
 	//gin check
 
 	//overloaded >= operator
+	//overloaded == operator
+	//overloaded << operator
 };
 
-void OrderedInit(/*****VECTOR of type CARD*****/ vector<Card> &c);
+void OrderedInit(vector<Card> &c);
 
-void CardShuffle(/*****VECTOR of type CARD*****/ vector<Card> &c);
-
-int startingDraw(/*****VECTOR of type CARD*****/ vector<Card> &c);
+int startingDraw(vector<Card> &c);
 
 string PrintCard(Card temp);
 
-
-
-
-
+void mainMenu();
+void instructions();
+void clear();
 
 #endif
-
