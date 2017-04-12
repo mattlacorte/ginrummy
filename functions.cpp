@@ -33,7 +33,7 @@
 	 //overload == operator
  };
 
- void OrderedInit(/*****VECTOR of type CARD*****/ vector<Card> &c){
+ void OrderedInit(vector<Card> &c){
 
 	 //initialize 52 cards, in order
 		//uses nested for loops
@@ -62,40 +62,8 @@
 	 }
  }
 
-/* void CardShuffle(/*****VECTOR of type CARD***** / vector<Card> &c){
-
-	 vector<Card> temp(52);		//creates second vector as temp storage
-		
-	 for (int i = 0; i < 52; i++) {		//temp = init vector
-		 temp[i] = c[i];
-		}
-
-		//randomly assign temp vals to the passed vector
-
-	 int shuffledOrder[52];
-	 int tempShuffleVal;
-	 bool checkRepeat;
-
-	 for (int i = 0; i < 52; i++) {					//RECHECK THIS FOR LOGIC ERRORS***************************
-
-		 do {
-
-			 tempShuffleVal = (rand() % 52) + 1;
-
-			 for (int j = 0; j < i; j++) {
-				 if (tempShufleVal = shuffleOrder[i]) {
-					 checkRepeat = true;
-					 break;
-				 }
-			 }
-		 } while (checkRepeat);	//checkRepeat = true if there is a repeat
-
-		 shuffledOrder[i] = tempShuffleVal;
-
-		 //assign new card order to shuffled vector
- } */
  
- int startingDraw(/*****VECTOR of type CARD*****/ vector<Card> &c){
+ int startingDraw(vector<Card> &c){
 
 	 //user chooses 1-52 as if picking a card from a hand
 		//computer picks a card as well. NOT THE SAME AS USER
