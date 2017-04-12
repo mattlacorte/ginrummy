@@ -62,7 +62,7 @@
 	 }
  }
 
- void CardShuffle(/*****VECTOR of type CARD*****/ vector<Card> &c){
+/* void CardShuffle(/*****VECTOR of type CARD***** / vector<Card> &c){
 
 	 vector<Card> temp(52);		//creates second vector as temp storage
 		
@@ -93,9 +93,7 @@
 		 shuffledOrder[i] = tempShuffleVal;
 
 		 //assign new card order to shuffled vector
-
-
- }
+ } */
  
  int startingDraw(/*****VECTOR of type CARD*****/ vector<Card> &c){
 
