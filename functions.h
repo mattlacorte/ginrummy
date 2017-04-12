@@ -33,6 +33,8 @@ void CardShuffle(/*****VECTOR of type CARD*****/ vector<Card> &c);
 
 int startingDraw(/*****VECTOR of type CARD*****/ vector<Card> &c);
 
+void dealCards();
+
 string PrintCard(Card temp);
 
 

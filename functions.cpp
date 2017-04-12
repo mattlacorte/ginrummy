@@ -106,6 +106,18 @@
 	 //return user or comp
  }
 
+ void DealCards(vector<int> AI, vector<int> Human, vector<int> Card) {
+	 int j = 0;
+	 for (int i = 0; i <= 10; i++, j = j + 2) {			//iterates 10 times to fill the hand of the AI
+		 AI.at(i) = Card.at(j);
+	 }
+	 int g = 1;
+	 for (int k = 1; k <= 10; k++, g = g + 2) {		    //iterates 10 times to fill the hand of the Human
+		 Human.at(k) = Card.at(g);
+	 }
+	 //Add funtion for printing out Human Hand													
+ }
+
  string PrintCard(Card temp) {
 
  }
