@@ -6,6 +6,7 @@
  
 // #include "functions.h"
 #include <iostream>
+#include <cstdlib>
 #include <algorithm>
 #include <vector>
 #include <string>
