@@ -1,3 +1,4 @@
+
 /* * * * * * * * * * * * * * * * * * * * * * * * *
  * Function Definitions
  *
@@ -6,14 +7,13 @@
  
 // #include "functions.h"
 #include <iostream>
-#include <cstdlib>
 #include <algorithm>
 #include <vector>
 #include <string>
  
  using namespace std;
 
-
+ //class to store card suit, face, and value
  class Card {
  private:
 	 int suit;		//will store suit type as int. 1 = hearts, 2 = diamonds, 3 = spades, 4 = clubs
@@ -32,9 +32,11 @@
 
 	 //overloaded >= operator
 	 //overload == operator
+	 //overload << operaor
  };
 
- void OrderedInit(vector<Card> &c){
+ //initializes a deck of sorted cards
+ void orderedInit(vector<Card> &c){
 
 	 //initialize 52 cards, in order
 		//uses nested for loops
@@ -63,17 +65,49 @@
 	 }
  }
 
+ //random generator function
+ int myRandom(int i) {
+	 return rand() % i;
+ }
+
+ //using a vector algorithm, cards get shuffled
+ void vectorShuffle(vector<Card> &c) {
+	 random_shuffle(c.begin(), c.end(), MyRandom);
+ }
  
+ //decided if user or computer will go first
  int startingDraw(vector<Card> &c){
 
-	 //user chooses 1-52 as if picking a card from a hand
-		//computer picks a card as well. NOT THE SAME AS USER
-		//overloaded operator to determine which is higher val
+	 int userNum;	//stores user num between 1 and 52
+	 int compNum;	//stores comp num between 1 and 52
+
+	 int winner;
+
+	 do {
+
+		 cout << "Choose a number between 1 and 52" << endl;
+		 cin >> userNum;			//user's inputted num
+
+		 compNum = rand() % 52 + 1;		//comp num between 1 and 52
+
+	 } while ((userNum == compNum) && ((1 <= userNum) && (userNum <= 52)));		//loop for as long as user and comp numbers are the same, and not 1 <= userNum <= 52
+
+	//overloaded operator to determine which is higher val
+	 compCard = c(compNum);
+	 userCard = c(userNum);
+
+	 if (userCard > compCard) {
+		 winner = 1;
+	 }
+	 else if (compCard < userCard) {
+		 winner = 2;
+	 }
+	
 
 	 //return user or comp
  }
 
- string PrintCard(Card temp) {
+ string printCard(Card temp) {
 
  }
 
@@ -162,5 +196,4 @@
 	 }
 	 else if (mainMenuChoice == 3) {
 		 exit(1);
-	 }
- }
+	 }
