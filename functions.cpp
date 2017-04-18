@@ -2,7 +2,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * *
  * Function Definitions
  *
- *lol
+ *
  */
  
 // #include "functions.h"
@@ -248,3 +248,46 @@ void setDiscard(stack<Card> &draw, stack<Card> &discard) {
 		 exit(1);
 	 }
  }
+
+void pause() {
+    system("pause");
+}
+
+void endMenu(int compScore, int userScore) {
+    clear();
+
+    int tmpCompScore = compScore;
+    int tmpUserScore = userScore;
+    
+    string tmpWinner = " ";
+    char playAgainChoice = ' ';
+
+    if (tmpCompScore > tmpUserScore) {
+        tmpWinner = "The Computer Has Won!";
+    }
+    else if (tmpUserScore > tmpCompScore) {
+        tmpWinner = "You Beat the Computer!";
+    }
+
+    cout << endl;
+    cout << "*********************************" << endl;
+    cout << tmpWinner << endl;
+    cout << "*********************************" << endl;
+    cout << endl;
+    cout << "Final Scores:" << endl;
+    cout << endl;
+    cout << "You ----------- " << tmpUserScore << endl;
+    cout << "Computer ------ " << tmpCompScore << endl;
+    cout << endl << endl;
+    cout << "Would you like to play again? [Y/N]" << endl;
+    cout << endl;
+    cin >> playAgainChoice;
+
+    if (playAgainChoice == 'Y' || 'y') {
+        mainMenu();
+    }
+    else if (playAgainChoice == 'N' || 'n') {
+        exit(1);
+    }
+
+}
