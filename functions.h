@@ -82,4 +82,7 @@ void instructions();
 
 void clear();
 
+void endMenu();
+
+void pause();
 #endif
