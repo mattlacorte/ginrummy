@@ -35,17 +35,100 @@
 		 val = 0;
 	 }
 
+	 friend bool operator < (const Card& AI, const Card& Human);
+	 friend bool operator > (const Card& AI, const Card& Human);
+	 friend bool operator == (const Card& AI, const Card& Human);
+	 friend ostream& operator << (ostream& outStream, const Card& hand);
+
 	 //sort(vector<Card> &c);
 	 //deadwood check
 	 //knock check
 	 //gin check
 
-	 //overload > operator
-	 //overload < operator
-	 //overload == operator
-	 //overload << operator
-	 //overload = operator
  };
+
+ bool operator < (const Card& AI, const Card& Human) {
+	 return (AI.face < Human.face,
+		 AI.suit < Human.suit,
+		 AI.val < Human.val);
+ }
+
+ bool operator > (const Card& AI, const Card& Human) {
+	 return (AI.face > Human.face,
+		 AI.suit > Human.suit,
+		 AI.val > Human.val);
+ }
+
+ bool operator == (const Card& AI, const Card& Human) {
+	 return (AI.face == Human.face,
+		 AI.suit == Human.suit,
+		 AI.val == Human.val);
+ }
+
+ ostream& operator << (ostream& outStream, const Card& hand) {
+	 switch (hand.face) {
+	 case 1:
+		 outStream << "A";
+		 break;
+	 case 2:
+		 outStream << "2";
+		 break;
+	 case 3:
+		 outStream << "3";
+		 break;
+	 case 4:
+		 outStream << "4";
+		 break;
+	 case 5:
+		 outStream << "5";
+		 break;
+	 case 6:
+		 outStream << "6";
+		 break;
+	 case 7:
+		 outStream << "7";
+		 break;
+	 case 8:
+		 outStream << "8";
+		 break;
+	 case 9:
+		 outStream << "9";
+		 break;
+	 case 10:
+		 outStream << "10";
+		 break;
+	 case 11:
+		 outStream << "J";
+		 break;
+	 case 12:
+		 outStream << "Q";
+		 break;
+	 case 13:
+		 outStream << "K";
+		 break;
+	 default:
+		 outStream << "Printing Face doesn't work";
+		 break;
+	 }
+	 switch (hand.suit) {
+	 case 1:
+		 outStream << "H";
+		 break;
+	 case 2:
+		 outStream << "D";
+		 break;
+	 case 3:
+		 outStream << "S";
+		 break;
+	 case 4:
+		 outStream << "C";
+		 break;
+	 default:
+		 outStream << "Error in printing suit";
+		 break;
+	 }
+	 return outStream;
+ }
 
 class Hand {
 private:
