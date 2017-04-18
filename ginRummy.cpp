@@ -1,13 +1,10 @@
-/* ginRummy.cpp : Defines the entry point for the console application.
+/* Matt LaCorte, Alfred Joseph, Jacob Pasley, Ludgi Eugene
  *
- * Matt LaCorte, Alfred Joseph, Jacob Pasley
- *
- * ECGR 2104 Gin Rummy Final
+ * ECGR 2104 Gin Rummy Final Project
  *
  */
 
 #include <iostream>
-#include <stack>
 
 #include "functions.h"
 
@@ -17,19 +14,22 @@ using namespace std;
 
 int main()
 {
-	//DEFINE ALL VARIABLES HERE
-
+	//DEFINE ALL VARIABLES HERE -------------------------------------
+	
 	vector<Card> fullDeck(52);	//stores all cards
 
-	stack<Card> remaining(52);		//stores cards not yet drawn
-	stack<Card> discard(52);		//stores cards discarded
+	stack<Card> draw(52);		//stores cards not yet drawn
+	stack<Card> discard(52);	//stores cards discarded
 	
 	Hand compHand;		//stores the comp's cards
 	Hand userHand;		//stores user's cards
 
 	int firstPlayer = 0;
 
-	//END OF VARIABLES
+	int compScore = 0;
+	int userScore = 0;
+
+	//END OF VARIABLES -----------------------------------------
 
 
 	mainMenu();		//Print the rules
@@ -39,19 +39,11 @@ int main()
 	vectorShuffle(fullDeck);	//shuffles deck
 
 	firstPlayer = startingDraw(fullDeck);		//decides who deals. 1 = user, 2 = comp
-			
-		//ask user to pick 1-52
-		//comp picks 1-52 excluding user choice
-		//compare cards
 
+	dealCards(&compHand, &userHand, &fullDeck);	//deal cards
 
-	//deal cards							-- ALFRED
-
-
-	//start discard pile
-
-
-	//start draw pile
+	setDraw(&fulldeck, &draw);					//initializes draw pile
+	setDiscard(&draw, &discard);				//initializes discard pile
 
 
 	//non-dealer draws

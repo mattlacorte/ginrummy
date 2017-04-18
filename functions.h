@@ -14,18 +14,19 @@
 
 //declare all functions here
 
-class Card {		/*****UNSURE OF WHETHER OR NOT THIS SHOULD BE HERE*****/
+class Card {
 private:
-	int suit;		//will store suit type as int. 1 = hearts, 2 = diamonds, 3 = spades, 4 = clubs
-	int face;		//stores face of card as int. 1 = A, 2 = 2, 3 = 3, ..., 11 = J, 12 = Q, 13 = K
-	int val;		//stores value of card. A = 1, 2 = 2, ..., JQK = 10
+	int suit;
+	int face;
+	int val;
 public:
 	Card(int progSuit, int progFace, int progVal);
 	Card();
+	
 	//sort function
-	deadwoodCheck(vector<Card> &c);
-	knockCheck(vector<Card> &c);
-	ginCheck(vector<Card> &c);
+	//deadwoodCheck(vector<Card> &c);
+	//knockCheck(vector<Card> &c);
+	//ginCheck(vector<Card> &c);
 
 	//overloaded >= operator
 	//overloaded == operator
@@ -33,17 +34,33 @@ public:
 	//overloaded = operator
 };
 
+class Hand {
+private:
+	vector<Card> all(10);
+	vector<Card> set;
+	vector<Card> run;
+	vector<Card> deadwood;
+	int deadPoints;
+public:
+	Hand(Card &c);
+
+
+};
+
 Card::Card(int progSuit, int progFace, int progVal);
 
 Card::Card();
 
+Hand::Hand(Card &c)
+
 //sort function
 
-Card::deadwoodCheck();
+//Card::deadwoodCheck();
 
-Card::knockCheck();
+//Card::knockCheck();
 
-Card::ginCheck();
+//Card::ginCheck();
+
 
 void OrderedInit(vector<Card> &c);
 
@@ -53,7 +70,11 @@ void vectorShuffle(vector<Card> &c);
 
 int startingDraw(vector<Card> &c);
 
-string printCard(Card temp);
+void dealCards(Hand &comp, Hand &user, vector<Card> &c);
+
+void setDraw(vector<Card> &c, stack<Card> &d);
+
+void setDiscard(stack<Card> &draw, stack<Card> &discard);
 
 void mainMenu();
 

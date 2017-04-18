@@ -11,6 +11,8 @@
 #include <stack>
 #include <vector>
 #include <string>
+#include <cmath>
+#include <cstdlib>
  
  using namespace std;
 
@@ -23,7 +25,7 @@
  public:
 	 Card(int progSuit, int progFace, int progVal){			//decleration with suit, face, and val
 		 suit = progSuit;
-		 face = progSuit;
+		 face = progFace;
 		 val = progVal;
 	 }
 	 Card() {
@@ -50,11 +52,14 @@ private:
 	vector<Card> set;
 	vector<Card> run;
 	vector<Card> deadwood;
+	int deadPoints;
 public:
-	Hand(vector<Card> &c);
+	Hand(Card &c) {
+		all.push_back(c);
+	}
 
 
-}
+};
 
  //initializes a deck of sorted cards
  void orderedInit(vector<Card> &c){
@@ -128,10 +133,37 @@ public:
 	 return winner;
  }
 
+//deals 10 cards to each player
+ void dealCards(Hand &comp, Hand &user, vector<Card> &c) {
+	 int j = 51;
+	 for (int i = 0; i <= 10; i++, j = j - 2) {			//iterates 10 times
+		 comp.all(c(j));								//fills comp hand	
+		 user.all(c(j - 1));							//fills user hand
+		 c.pop_back(j);
+		 c.pop_back(j - 1);
+	 }
+	 //Add funtion for printing out Human Hand													
+}
+
+//sets the draw pile
+void setDraw(vector<Card> &c, stack<Card> &d) {
+	for (int i = 0; i < c.end(); i++) {
+		d.push_back(c.end());
+	}
+}
+
+//sets the discard pile
+void setDiscard(stack<Card> &draw, stack<Card> &discard) {
+	dicard.push_back(draw.end());
+	draw.pop_back();
+}
+
+//clears screen
  void clear() {
 	 system("CLS");
  }
 
+//prints instructions
  void instructions() {
 	 clear();
 
@@ -187,6 +219,7 @@ public:
 	 mainMenu();
  }
 
+//prints main menu
  void mainMenu() {
 	 clear();
 
