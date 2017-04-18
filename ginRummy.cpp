@@ -6,8 +6,8 @@
  *
  */
 
-#include "stdafx.h"
 #include <iostream>
+#include <stack>
 
 #include "functions.h"
 
@@ -17,15 +17,28 @@ using namespace std;
 
 int main()
 {
+	//DEFINE ALL VARIABLES HERE
 
-	//Print the rules						-- JACOB
-		//ask if you know the game first
-		//single game or set of games
+	vector<Card> fullDeck(52);	//stores all cards
+
+	stack<Card> remaining(52);		//stores cards not yet drawn
+	stack<Card> discard(52);		//stores cards discarded
+	
+	Hand compHand;		//stores the comp's cards
+	Hand userHand;		//stores user's cards
+
+	int firstPlayer = 0;
+
+	//END OF VARIABLES
 
 
-	//run function to decide who deals		-- MATT
-		//must initialize and shuffle cards first
-			//cards stored in vector of type CARD
+	mainMenu();		//Print the rules
+
+
+	orderedInit(fullDeck);		//initializes deck
+	vectorShuffle(fullDeck);	//shuffles deck
+
+	firstPlayer = startingDraw(fullDeck);		//decides who deals. 1 = user, 2 = comp
 			
 		//ask user to pick 1-52
 		//comp picks 1-52 excluding user choice

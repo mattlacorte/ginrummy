@@ -8,6 +8,7 @@
 // #include "functions.h"
 #include <iostream>
 #include <algorithm>
+#include <stack>
 #include <vector>
 #include <string>
  
@@ -25,15 +26,35 @@
 		 face = progSuit;
 		 val = progVal;
 	 }
-	 //sort function
+	 Card() {
+		 suit = 0;
+		 face = 0;
+		 val = 0;
+	 }
+
+	 //sort(vector<Card> &c);
 	 //deadwood check
 	 //knock check
 	 //gin check
 
-	 //overloaded >= operator
+	 //overload > operator
+	 //overload < operator
 	 //overload == operator
-	 //overload << operaor
+	 //overload << operator
+	 //overload = operator
  };
+
+class Hand {
+private:
+	vector<Card> all(10);
+	vector<Card> set;
+	vector<Card> run;
+	vector<Card> deadwood;
+public:
+	Hand(vector<Card> &c);
+
+
+}
 
  //initializes a deck of sorted cards
  void orderedInit(vector<Card> &c){
@@ -104,11 +125,7 @@
 	 }
 	
 
-	 //return user or comp
- }
-
- string printCard(Card temp) {
-
+	 return winner;
  }
 
  void clear() {
@@ -196,4 +213,5 @@
 	 }
 	 else if (mainMenuChoice == 3) {
 		 exit(1);
-	 }
+	 }
+ }

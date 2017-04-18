@@ -21,6 +21,7 @@ private:
 	int val;		//stores value of card. A = 1, 2 = 2, ..., JQK = 10
 public:
 	Card(int progSuit, int progFace, int progVal);
+	Card();
 	//sort function
 	deadwoodCheck(vector<Card> &c);
 	knockCheck(vector<Card> &c);
@@ -29,9 +30,12 @@ public:
 	//overloaded >= operator
 	//overloaded == operator
 	//overloaded << operator
+	//overloaded = operator
 };
 
 Card::Card(int progSuit, int progFace, int progVal);
+
+Card::Card();
 
 //sort function
 
