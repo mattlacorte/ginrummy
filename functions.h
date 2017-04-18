@@ -40,5 +40,6 @@ string PrintCard(Card temp);
 void mainMenu();
 void instructions();
 void clear();
-
+void endmenu();
+void pause();
 #endif
