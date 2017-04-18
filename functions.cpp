@@ -25,6 +25,12 @@
 		 face = progSuit;
 		 val = progVal;
 	 }
+	 Card() {
+		 suit = 0;
+		 face = 0;
+		 val = 0;
+	 }
+
 	 //sort function
 	 //deadwood check
 	 //knock check
@@ -32,7 +38,8 @@
 
 	 //overloaded >= operator
 	 //overload == operator
-	 //overload << operaor
+	 //overload << operator
+	 //overload = operator
  };
 
  //initializes a deck of sorted cards
@@ -105,10 +112,6 @@
 	
 
 	 //return user or comp
- }
-
- string printCard(Card temp) {
-
  }
 
  void clear() {
@@ -196,4 +199,5 @@
 	 }
 	 else if (mainMenuChoice == 3) {
 		 exit(1);
-	 }
+	 }
+ }
