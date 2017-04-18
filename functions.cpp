@@ -2,7 +2,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * *
  * Function Definitions
  *
- *
+ *lol
  */
  
 // #include "functions.h"
