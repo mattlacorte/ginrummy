@@ -77,6 +77,8 @@ void dealCards();
 void dealCards(vector<Card> &AI, vector<Card> &Human, vector<Card> &c);
 >>>>>>> Merge branch 'Alfred'
 
+void dealCards(vector<Card> &AI, vector<Card> &Human, vector<Card> &c);
+
 string PrintCard(Card temp);
 >>>>>>> Added Deal Function
 
