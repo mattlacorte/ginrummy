@@ -76,6 +76,8 @@ void setDraw(vector<Card> &c, stack<Card> &d);
 
 void setDiscard(stack<Card> &draw, stack<Card> &discard);
 
+void sortHand(Hand &h);
+
 void mainMenu();
 
 void instructions();
