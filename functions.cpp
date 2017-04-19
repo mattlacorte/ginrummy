@@ -39,11 +39,96 @@
 	 //knock check
 	 //gin check
 
-	 //overload > operator
-	 //overload < operator
-	 //overload == operator
-	 //overload << operator
-	 //overload = operator
+	 friend bool operator < (const Card& AI, const Card& Human);
+	 friend bool operator > (const Card& AI, const Card& Human);
+	 friend bool operator == (const Card& AI, const Card& Human);
+	 friend ostream& operator << (ostream& outStream, const Card& hand);
+
+	 //sort(vector<Card> &c);
+	 //deadwood check
+	 //knock check
+	 //gin check
+
+ };
+
+ bool operator < (const Card& AI, const Card& Human) {
+	 return (AI.face < Human.face,
+		 AI.suit < Human.suit,
+		 AI.val < Human.val);
+ }
+ bool operator > (const Card& AI, const Card& Human) {
+	 return (AI.face > Human.face,
+		 AI.suit > Human.suit,
+		 AI.val > Human.val);
+ }
+ bool operator == (const Card& AI, const Card& Human) {
+	 return (AI.face == Human.face,
+		 AI.suit == Human.suit,
+		 AI.val == Human.val);
+ }
+ ostream& operator << (ostream& outStream, const Card& hand) {
+	 switch (hand.face) {
+	 case 1:
+		 outStream << "A";
+		 break;
+	 case 2:
+		 outStream << "2";
+		 break;
+	 case 3:
+		 outStream << "3";
+		 break;
+	 case 4:
+		 outStream << "4";
+		 break;
+	 case 5:
+		 outStream << "5";
+		 break;
+	 case 6:
+		 outStream << "6";
+		 break;
+	 case 7:
+		 outStream << "7";
+		 break;
+	 case 8:
+		 outStream << "8";
+		 break;
+	 case 9:
+		 outStream << "9";
+		 break;
+	 case 10:
+		 outStream << "10";
+		 break;
+	 case 11:
+		 outStream << "J";
+		 break;
+	 case 12:
+		 outStream << "Q";
+		 break;
+	 case 13:
+		 outStream << "K";
+		 break;
+	 default:
+		 outStream << "Printing Face doesn't work";
+		 break;
+	 }
+	 switch (hand.suit) {
+	 case 1:
+		 outStream << "H";
+		 break;
+	 case 2:
+		 outStream << "D";
+		 break;
+	 case 3:
+		 outStream << "S";
+		 break;
+	 case 4:
+		 outStream << "C";
+		 break;
+	 default:
+		 outStream << "Error in printing suit";
+		 break;
+	 }
+	 r
  };
 
 class Hand {
@@ -157,6 +242,204 @@ void setDiscard(stack<Card> &draw, stack<Card> &discard) {
 	dicard.push_back(draw.end());
 	draw.pop_back();
 }
+
+void sortHand(Hand &h) {
+	int startRun;		//will store start pos of a possible run
+	int stopRun;		//will store end pos of a possible run
+
+	bool runTrue = false	//records whether a run can begin
+	bool repeat = false		//records if there is a repeat of card vals
+
+	vector<Card> card1;		//stores A
+	vector<Card> card2;		//2
+	vector<Card> card3;		//3
+	vector<Card> card4;
+	vector<Card> card5;
+	vector<Card> card6;
+	vector<Card> card7;
+	vector<Card> card8;
+	vector<Card> card9;
+	vector<Card> card10;
+	vector<Card> card11;	//J
+	vector<Card> card12;	//Q
+	vector<Card> card13;	//K
+
+	vector<Card> runCheck;
+
+	//SET CHECK
+
+	for (int i = 0; i < 10; i++) {
+		switch (h.all(i.face)) {
+			case 1:
+				card1.push_back(h.all(i));
+				break;
+			case 2:
+				card2.push_back(h.all(i));
+				break;
+			case 3:
+				card3.push_back(h.all(i));
+				break;
+			case 4:
+				card4.push_back(h.all(i));
+				break;		
+			case 5:
+				card5.push_back(h.all(i));
+				break;
+			case 6:
+				card6.push_back(h.all(i));
+				break;
+			case 7:
+				card7.push_back(h.all(i));
+				break;
+			case 8:
+				card8.push_back(h.all(i));
+				break;
+			case 9:
+				card9.push_back(h.all(i));
+				break;
+			case 10:
+				card10.push_back(h.all(i));
+				break;
+			case 11:
+				card11.push_back(h.all(i));
+				break;
+			case 12:
+				card12.push_back(h.all(i));
+				break;
+			case 13:
+				card13.push_back(h.all(i));
+				break;								
+		}
+	}
+
+	//If set, add to the "set" vector in hand
+	if(card1.size() > 2) {
+		for (int i = 0; i < card1.size(); i++) {
+			h.set(i).push_back(card1.i);
+			card1.clear();
+		}
+	}
+	if(card2.size() > 2) {
+		for (int i = 0; i < card2.size(); i++) {
+			h.set(i).push_back(card2.i);
+			card2.clear();
+		}
+	}
+	if(card3.size() > 2) {
+		for (int i = 0; i < card3.size(); i++) {
+			h.set(i).push_back(card3.i);
+			card3.clear();
+		}
+	}		
+	if(card4.size() > 2) {
+		for (int i = 0; i < card4.size(); i++) {
+			h.set(i).push_back(card4.i);
+			card4.clear();
+		}
+	}
+	if(card5.size() > 2) {
+		for (int i = 0; i < card5.size(); i++) {
+			h.set(i).push_back(card5.i);
+			card5.clear();
+		}
+	}
+	if(card6.size() > 2) {
+		for (int i = 0; i < card6.size(); i++) {
+			h.set(i).push_back(card6.i);
+			card6.clear();
+		}
+	}		
+	if(card7.size() > 2) {
+		for (int i = 0; i < card7.size(); i++) {
+			h.set(i).push_back(card7.i);
+			card7.clear();
+		}
+	}
+	if(card8.size() > 2) {
+		for (int i = 0; i < card8.size(); i++) {
+			h.set(i).push_back(card8.i);
+			card8.clear();
+		}
+	}
+	if(card9.size() > 2) {
+		for (int i = 0; i < card9.size(); i++) {
+			h.set(i).push_back(card9.i);
+			card9.clear();
+		}
+	}
+	if(card10.size() > 2) {
+		for (int i = 0; i < card10.size(); i++) {
+			h.set(i).push_back(card10.i);
+			card10.clear();
+		}
+	}
+	if(card11.size() > 2) {
+		for (int i = 0; i < card11.size(); i++) {
+			h.set(i).push_back(card11.i);
+			card11.clear();
+		}
+	}
+	if(card12.size() > 2) {
+		for (int i = 0; i < card12.size(); i++) {
+			h.set(i).push_back(card12.i);
+			card12.clear();
+		}
+	}
+	if(card13.size() > 2) {
+		for (int i = 0; i < card13.size(); i++) {
+			h.set(i).push_back(card13.i);
+			card13.clear();
+		}
+	}			
+
+	//add all remaining cards to a single vector
+	checkRun.insert(checkRun.end(), card1.begin(), card1.end());
+	checkRun.insert(checkRun.end(), card2.begin(), card2.end());
+	checkRun.insert(checkRun.end(), card3.begin(), card3.end());
+	checkRun.insert(checkRun.end(), card4.begin(), card4.end());
+	checkRun.insert(checkRun.end(), card5.begin(), card5.end());
+	checkRun.insert(checkRun.end(), card6.begin(), card6.end());
+	checkRun.insert(checkRun.end(), card7.begin(), card7.end());
+	checkRun.insert(checkRun.end(), card8.begin(), card8.end());
+	checkRun.insert(checkRun.end(), card9.begin(), card9.end());
+	checkRun.insert(checkRun.end(), card10.begin(), card10.end());
+	checkRun.insert(checkRun.end(), card11.begin(), card11.end());
+	checkRun.insert(checkRun.end(), card12.begin(), card12.end());
+	checkRun.insert(checkRun.end(), card13.begin(), card13.end());
+
+	//RUN CHECK
+
+	for (int i = 0; i < (checkRun.size() - 2); i++) {
+
+		counter = 0;
+
+		do {
+			runTrue = false		//records whether a run can begin
+			repeat = false		//records if there is a repeat of card vals
+
+			//startRun = i;
+			//endRun = i + counter;
+
+			for (int j = i + 1; j < checkRun.size(); j++) {
+				if (checkRun(i).face == (checkRun(j).face + 1)) {
+					runTrue = true;
+				}
+				else if (checkRun(i).face == checkRun(j).face) {
+					if (checkRun(i).face == (checkRun(j + 1).face + 1) {
+						runTrue = true
+						repeat = true;
+					}
+				}
+			}
+			
+
+			counter++;
+		} while(runTrue)
+	}
+}
+
+
+
 
 //clears screen
  void clear() {
