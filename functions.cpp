@@ -34,17 +34,11 @@
 		 val = 0;
 	 }
 
-	 //sort(vector<Card> &c);
-	 //deadwood check
-	 //knock check
-	 //gin check
-
 	 friend bool operator < (const Card& AI, const Card& Human);
 	 friend bool operator > (const Card& AI, const Card& Human);
 	 friend bool operator == (const Card& AI, const Card& Human);
 	 friend ostream& operator << (ostream& outStream, const Card& hand);
 
-	 //deadwood check
 	 //knock check
 	 //gin check
 
@@ -145,8 +139,6 @@ public:
 	Hand(Card &c) {
 		all.push_back(c);
 	}
-	//sort function
-		//assigns runs, sets, and deadwood
 
 
 };

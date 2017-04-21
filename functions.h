@@ -28,10 +28,10 @@ public:
 	//knockCheck(vector<Card> &c);
 	//ginCheck(vector<Card> &c);
 
-	//overloaded >= operator
-	//overloaded == operator
-	//overloaded << operator
-	//overloaded = operator
+	friend bool operator < (const Card& AI, const Card& Human);
+	friend bool operator > (const Card& AI, const Card& Human);
+	friend bool operator == (const Card& AI, const Card& Human);
+	friend ostream& operator << (ostream& outStream, const Card& hand);
 };
 
 class Hand {
