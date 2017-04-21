@@ -44,28 +44,31 @@
 	 friend bool operator == (const Card& AI, const Card& Human);
 	 friend ostream& operator << (ostream& outStream, const Card& hand);
 
-	 //sort(vector<Card> &c);
 	 //deadwood check
 	 //knock check
 	 //gin check
 
  };
 
+//overloaded less than
  bool operator < (const Card& AI, const Card& Human) {
 	 return (AI.face < Human.face,
 		 AI.suit < Human.suit,
 		 AI.val < Human.val);
  }
+ //overloaded greater than
  bool operator > (const Card& AI, const Card& Human) {
 	 return (AI.face > Human.face,
 		 AI.suit > Human.suit,
 		 AI.val > Human.val);
  }
+ //overloaded equal to
  bool operator == (const Card& AI, const Card& Human) {
 	 return (AI.face == Human.face,
 		 AI.suit == Human.suit,
 		 AI.val == Human.val);
  }
+ //overloaded cout
  ostream& operator << (ostream& outStream, const Card& hand) {
 	 switch (hand.face) {
 	 case 1:
@@ -142,6 +145,8 @@ public:
 	Hand(Card &c) {
 		all.push_back(c);
 	}
+	//sort function
+		//assigns runs, sets, and deadwood
 
 
 };
@@ -250,26 +255,32 @@ void sortHand(Hand &h) {
 	bool runTrue = false	//records whether a run can begin
 	bool repeat = false		//records if there is a repeat of card vals
 
-	vector<Card> card1;		//stores A
+	vector<Card> card1;		//A
 	vector<Card> card2;		//2
 	vector<Card> card3;		//3
-	vector<Card> card4;
-	vector<Card> card5;
-	vector<Card> card6;
-	vector<Card> card7;
-	vector<Card> card8;
-	vector<Card> card9;
-	vector<Card> card10;
+	vector<Card> card4;		//4
+	vector<Card> card5;		//5
+	vector<Card> card6;		//6
+	vector<Card> card7;		//7
+	vector<Card> card8;		//8
+	vector<Card> card9;		//9
+	vector<Card> card10;	//10
 	vector<Card> card11;	//J
 	vector<Card> card12;	//Q
 	vector<Card> card13;	//K
 
 	vector<Card> runCheck;
+	
+	vector<Card> heart;
+	vector<Card> diamond;
+	vector<Card> spade;
+	vector<Card> club;
 
-	//SET CHECK
 
-	for (int i = 0; i < 10; i++) {
-		switch (h.all(i.face)) {
+	//SET CHECK ---------------------------------------------------------------
+
+	for (int i = 0; i < 10; i++) {	//iterates through all cards
+		switch (h.all(i.face)) {	//adds all cards to appropriate face vector
 			case 1:
 				card1.push_back(h.all(i));
 				break;
@@ -312,7 +323,7 @@ void sortHand(Hand &h) {
 		}
 	}
 
-	//If set, add to the "set" vector in hand
+	//If set (more than 3), add to the "set" vector in hand
 	if(card1.size() > 2) {
 		for (int i = 0; i < card1.size(); i++) {
 			h.set(i).push_back(card1.i);
@@ -392,6 +403,7 @@ void sortHand(Hand &h) {
 		}
 	}			
 
+
 	//add all remaining cards to a single vector
 	checkRun.insert(checkRun.end(), card1.begin(), card1.end());
 	checkRun.insert(checkRun.end(), card2.begin(), card2.end());
@@ -407,39 +419,117 @@ void sortHand(Hand &h) {
 	checkRun.insert(checkRun.end(), card12.begin(), card12.end());
 	checkRun.insert(checkRun.end(), card13.begin(), card13.end());
 
-	//RUN CHECK
 
-	for (int i = 0; i < (checkRun.size() - 2); i++) {
+	//RUN CHECK --------------------------------------------------------------------------
 
-		counter = 0;
+	for (int i = 0; i < (checkRun.size()); i++) {	//iterates through all remaining cards
+
+		switch(checkRun(i).suit) {		//sorts cards into appropriate vector based on suit
+			case 1:
+				heart.push_back(checkRun(i));
+				break;
+			case 2:
+				diamond.push_back(checkRun(i));
+				break;
+			case 3:
+				spade.push_back(checkRun(i));
+				break;
+			case 4:
+				club.push_back(checkRun(i));
+				break;
+		}
+
+	}
+
+	for (int i = 0; i < heart.size() - 2; i++) {	//heart run check
+	
+		int j = i + 1;
 
 		do {
-			runTrue = false		//records whether a run can begin
-			repeat = false		//records if there is a repeat of card vals
+			runTrue = false;
 
-			//startRun = i;
-			//endRun = i + counter;
-
-			for (int j = i + 1; j < checkRun.size(); j++) {
-				if (checkRun(i).face == (checkRun(j).face + 1)) {
-					runTrue = true;
-				}
-				else if (checkRun(i).face == checkRun(j).face) {
-					if (checkRun(i).face == (checkRun(j + 1).face + 1) {
-						runTrue = true
-						repeat = true;
-					}
-				}
+			if ( heart(i).face == (heart(j).face - 1)) ) {
+				runTrue = true
+				j++;
 			}
-			
-
-			counter++;
 		} while(runTrue)
+
+		int size = (j - i) + 1;
+
+		for (int k = 0; k < size; k++) {
+			h.run.push_back(heart(k));
+		}
+
 	}
+
+	for (int i = 0; i < diamond.size() - 2; i++) {	//diamond run check
+	
+		int j = i + 1;
+
+		do {
+			runTrue = false;
+
+			if ( diamond(i).face == (diamond(j).face - 1)) ) {
+				runTrue = true
+				j++;
+			}
+		} while(runTrue)
+
+		int size = (j - i) + 1;
+
+		for (int k = 0; k < size; k++) {
+			h.run.push_back(diamond(k));
+		}
+	}
+
+	for (int i = 0; i < spade.size() - 2; i++) {	//spade run check
+	
+		int j = i + 1;
+
+		do {
+			runTrue = false;
+
+			if ( spade(i).face == (spade(j).face - 1)) ) {
+				runTrue = true
+				j++;
+			}
+		} while(runTrue)
+
+		int size = (j - i) + 1;
+
+		for (int k = 0; k < size; k++) {
+			h.run.push_back(spade(k));
+		}
+	}
+
+	for (int i = 0; i < club.size() - 2; i++) {		//club run check
+	
+		int j = i + 1;
+
+		do {
+			runTrue = false;
+
+			if ( club(i).face == (club(j).face - 1)) ) {
+				runTrue = true
+				j++;
+			}
+		} while(runTrue)
+
+		int size = (j - i) + 1;
+
+		for (int k = 0; k < size; k++) {
+			h.run.push_back(club(k));
+		}
+	}
+
+
+	//add all remaining cards to deadwood ------------------------------
+	
+	h.deadwood.insert(h.deadwood.end(), heart.begin(), heart.end());
+	h.deadwood.insert(h.deadwood.end(), diamond.begin(), diamond.end());
+	h.deadwood.insert(h.deadwood.end(), spade.begin(), spade.end());
+	h.deadwood.insert(h.deadwood.end(), club.begin(), club.end());
 }
-
-
-
 
 //clears screen
  void clear() {
