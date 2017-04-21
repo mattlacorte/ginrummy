@@ -42,6 +42,9 @@ int main()
 
 	dealCards(&compHand, &userHand, &fullDeck);	//deal cards
 
+	sortHand(Hand &compHand);					//sorts both hands for easy display
+	sortHand(Hand &userHand);					//sorts both hands for easy display
+
 	setDraw(&fulldeck, &draw);					//initializes draw pile
 	setDiscard(&draw, &discard);				//initializes discard pile
 
