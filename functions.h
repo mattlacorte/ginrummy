@@ -1,32 +1,20 @@
-#pragma once
+#include <iostream>
+#include <algorithm>
+#include <stack>
+#include <vector>
+#include <string>
+#include <cmath>
+#include <cstdlib>
 
-/* * * * * * * * * * * * * * * * * * *
-* Header Files
-*
-*
-*/
+using namespace std;
 
-//Random Comment
-
-#ifndef FUNCTIONS_H
-#define FUNCTIONS_H
-
-
-//declare all functions here
-
-class Card {
-private:
+struct Card {
 	int suit;
 	int face;
 	int val;
-public:
+
 	Card(int progSuit, int progFace, int progVal);
 	Card();
-	
-	//sort function
-	//deadwoodCheck(vector<Card> &c);
-	//knockCheck(vector<Card> &c);
-	//ginCheck(vector<Card> &c);
 
 	friend bool operator < (const Card& AI, const Card& Human);
 	friend bool operator > (const Card& AI, const Card& Human);
@@ -34,37 +22,19 @@ public:
 	friend ostream& operator << (ostream& outStream, const Card& hand);
 };
 
-class Hand {
-private:
-	vector<Card> all(10);
+struct Hand {
+	vector<Card> all;
 	vector<Card> set;
 	vector<Card> run;
 	vector<Card> deadwood;
+
 	int deadPoints;
-public:
+
+	Hand();
 	Hand(Card &c);
-
-
 };
 
-Card::Card(int progSuit, int progFace, int progVal);
-
-Card::Card();
-
-Hand::Hand(Card &c)
-
-//sort function
-
-//Card::deadwoodCheck();
-
-//Card::knockCheck();
-
-//Card::ginCheck();
-
-
-void OrderedInit(vector<Card> &c);
-
-int myRandom(int i);
+void orderedInit(vector<Card> &c);
 
 void vectorShuffle(vector<Card> &c);
 
@@ -84,7 +54,8 @@ void instructions();
 
 void clear();
 
-void endMenu();
+void endMenu(int compScore, int userScore);
 
 void pause();
+
 #endif
