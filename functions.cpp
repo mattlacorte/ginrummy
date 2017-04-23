@@ -13,6 +13,7 @@
 #include <string>
 #include <cmath>
 #include <cstdlib>
+#include <ctime>
  
  using namespace std;
 
@@ -193,12 +194,11 @@ void orderedInit(vector<Card> &c) {
 	}
 }
 
-int myRandom(int i) {
-	return rand() % i;
-}
-
 void vectorShuffle(vector<Card> &c) {
-	random_shuffle(c.begin(), c.end(), myRandom);
+	srand(time(NULL));
+	int i = rand() % 100;
+
+	random_shuffle(c.begin(), c.end());
 }
 
 int startingDraw(vector<Card> &c) {
@@ -213,12 +213,18 @@ int startingDraw(vector<Card> &c) {
 
 	do {
 
-		cout << "Choose a number between 1 and 52" << endl;
+		cout << "Choose a number between 1 and 52" << endl;		//selects the corresponding card
 		cin >> userNum;
 
-		compNum = rand() % 52 + 1;
+		do {		//general check to make sure the numbers are not the same
+		compNum = (rand() % 52) + 1;
+		} while (compNum != userNum);
+		
+		if ((1 > userNum) || (userNum > 52)) {
+			cout << "You chose a number that was out of bounds. Please learn to count, then pick again" << endl;	//Passive aggressiveness
+		}
 
-	} while ((userNum == compNum) && ((1 <= userNum) && (userNum <= 52)));
+	} while (((1 > userNum) && (userNum > 52)));
 
 	compCard = c.at(compNum);
 	userCard = c.at(userNum);
@@ -259,7 +265,7 @@ void setDiscard(stack<Card> &draw, stack<Card> &discard) {
 
 void sortHand(Hand &h) {
 
-	bool runTrue = false;	//records whether a run can begin
+	bool runTrue = false;		//records whether a run can begin
 	bool repeat = false;		//records if there is a repeat of card vals
 
 	vector<Card> card1;		//A
@@ -282,7 +288,6 @@ void sortHand(Hand &h) {
 	vector<Card> diamond;
 	vector<Card> spade;
 	vector<Card> club;
-
 
 	//SET CHECK ---------------------------------------------------------------
 
@@ -410,7 +415,7 @@ void sortHand(Hand &h) {
 		}
 	}
 
-
+	
 	//add all remaining cards to a single vector
 	checkRun.insert(checkRun.end(), card1.begin(), card1.end());
 	checkRun.insert(checkRun.end(), card2.begin(), card2.end());
@@ -425,7 +430,6 @@ void sortHand(Hand &h) {
 	checkRun.insert(checkRun.end(), card11.begin(), card11.end());
 	checkRun.insert(checkRun.end(), card12.begin(), card12.end());
 	checkRun.insert(checkRun.end(), card13.begin(), card13.end());
-
 
 	//RUN CHECK --------------------------------------------------------------------------
 
@@ -444,91 +448,102 @@ void sortHand(Hand &h) {
 		case 4:
 			club.push_back(checkRun.at(i));
 			break;
+		default:
+			cout << "suit assign error" << i << endl;
+			break;
 		}
-
 	}
 
-	for (int i = 0; i < heart.size() - 2; i++) {	//heart run check
+	if (heart.size() > 2) {
+		for (int i = 0; i < heart.size() - 2; i++) {	//heart run check
 
-		int j = i + 1;
+			int j = i + 1;
+			do {
+				runTrue = false;
 
-		do {
-			runTrue = false;
+				if (heart.at(i).face == (heart.at(j).face - 1)) {
+					runTrue = true;
+					j++;
 
-			if (heart.at(i).face == (heart.at(j).face - 1)) {
-				runTrue = true;
-				j++;
-			}
-		} while (runTrue);
+				}
+			} while (runTrue);
 
 			int size = (j - i) + 1;
 
-		for (int k = 0; k < size; k++) {
-			h.run.push_back(heart.at(k));
-		}
+			for (int k = 0; k < size; k++) {
+				h.run.push_back(heart.at(k));
+			}
 
+		}
 	}
 
-	for (int i = 0; i < diamond.size() - 2; i++) {	//diamond run check
+	if (diamond.size() > 2) {
+		for (int i = 0; i < diamond.size() - 2; i++) {	//diamond run check
 
-		int j = i + 1;
+			int j = i + 1;
 
-		do {
-			runTrue = false;
+			do {
+				runTrue = false;
 
-			if (diamond.at(i).face == (diamond.at(j).face - 1))  {
-				runTrue = true;
-				j++;
-			}
-		} while (runTrue);
+				if (diamond.at(i).face == (diamond.at(j).face - 1)) {
+					runTrue = true;
+					j++;
+				}
+			} while (runTrue);
 
 			int size = (j - i) + 1;
 
-		for (int k = 0; k < size; k++) {
-			h.run.push_back(diamond.at(k));
+			for (int k = 0; k < size; k++) {
+				h.run.push_back(diamond.at(k));
+			}
 		}
 	}
 
-	for (int i = 0; i < spade.size() - 2; i++) {	//spade run check
+	if (spade.size() > 2) {
+		for (int i = 0; i < spade.size() - 2; i++) {	//spade run check
 
-		int j = i + 1;
+			int j = i + 1;
 
-		do {
-			runTrue = false;
+			do {
+				runTrue = false;
 
-			if (spade.at(i).face == (spade.at(j).face - 1)) {
-				runTrue = true;
-				j++;
-			}
-		} while (runTrue);
+				if (spade.at(i).face == (spade.at(j).face - 1)) {
+					runTrue = true;
+					j++;
+
+				}
+			} while (runTrue);
 
 			int size = (j - i) + 1;
 
-		for (int k = 0; k < size; k++) {
-			h.run.push_back(spade.at(k));
+			for (int k = 0; k < size; k++) {
+				h.run.push_back(spade.at(k));
+			}
 		}
 	}
 
-	for (int i = 0; i < club.size() - 2; i++) {		//club run check
+	if (club.size() > 2) {
+		for (int i = 0; i < club.size() - 2; i++) {		//club run check
 
-		int j = i + 1;
+			int j = i + 1;
 
-		do {
-			runTrue = false;
+			do {
+				runTrue = false;
 
-			if (club.at(i).face == (club.at(j).face - 1)) {
-			runTrue = true;
-				j++;
-			}
-		} while (runTrue);
+				if (club.at(i).face == (club.at(j).face - 1)) {
+					runTrue = true;
+					j++;
+
+				}
+			} while (runTrue);
 
 			int size = (j - i) + 1;
 
-		for (int k = 0; k < size; k++) {
-			h.run.push_back(club.at(k));
+			for (int k = 0; k < size; k++) {
+				h.run.push_back(club.at(k));
+			}
 		}
 	}
-
 
 	//add all remaining cards to deadwood ------------------------------
 
@@ -537,6 +552,7 @@ void sortHand(Hand &h) {
 	h.deadwood.insert(h.deadwood.end(), spade.begin(), spade.end());
 	h.deadwood.insert(h.deadwood.end(), club.begin(), club.end());
 }
+
 
 void clear() {
 	system("CLS");

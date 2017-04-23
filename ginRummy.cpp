@@ -15,14 +15,14 @@ using namespace std;
 int main()
 {
 	//DEFINE ALL VARIABLES HERE -------------------------------------
-	
+
 	vector<Card> fullDeck(52);	//stores all cards
 
-	stack<Card> draw(52);		//stores cards not yet drawn
-	stack<Card> discard(52);	//stores cards discarded
-	
-	Hand compHand;		//stores the comp's cards
-	Hand userHand;		//stores user's cards
+	stack<Card> draw[52];		//stores cards not yet drawn
+	stack<Card> discard[52];	//stores cards discarded
+
+	Hand compHand;				//stores comp's cards
+	Hand userHand;				//stores user's cards
 
 	int firstPlayer = 0;
 
@@ -32,21 +32,21 @@ int main()
 	//END OF VARIABLES -----------------------------------------
 
 
-	mainMenu();		//Print the rules
+	mainMenu();									//Print the rules
 
 
-	orderedInit(fullDeck);		//initializes deck
-	vectorShuffle(fullDeck);	//shuffles deck
+	orderedInit(fullDeck);						//initializes deck
+	vectorShuffle(fullDeck);					//shuffles deck
 
 	firstPlayer = startingDraw(fullDeck);		//decides who deals. 1 = user, 2 = comp
 
-	dealCards(&compHand, &userHand, &fullDeck);	//deal cards
+	dealCards(compHand, userHand, fullDeck);	//deal cards
 
-	sortHand(Hand &compHand);					//sorts both hands for easy display
-	sortHand(Hand &userHand);					//sorts both hands for easy display
+	sortHand(compHand);							//sorts both hands for easy display
+	sortHand(userHand);							//sorts both hands for easy display
 
-	setDraw(&fulldeck, &draw);					//initializes draw pile
-	setDiscard(&draw, &discard);				//initializes discard pile
+	setDraw(fulldeck, draw);					//initializes draw pile
+	setDiscard(draw, discard);					//initializes discard pile
 
 
 	//non-dealer draws
@@ -64,6 +64,8 @@ int main()
 
 
 	//to declare GIN, function to check
+
+	endMenu(compScore, userScore);
 
     return 0;
 }
