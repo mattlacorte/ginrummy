@@ -57,3 +57,5 @@ void clear();
 void endMenu(int compScore, int userScore);
 
 void pause();
+
+#endif

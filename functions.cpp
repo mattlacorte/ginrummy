@@ -685,4 +685,4 @@ void endMenu(int compScore, int userScore) {
 		exit(1);
 	}
 
-}
+
