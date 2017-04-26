@@ -80,7 +80,6 @@ bool userPick(Hand &h, stack<Card> &draw, stack<Card> &discard);
 
 void dispHand(Hand &h);
 
-bool isThisAFuckingRun(vector<Card> &suit, int i);
 
 
 int main()
@@ -124,7 +123,7 @@ int main()
 	setDraw(fullDeck, draw);
 	setDiscard(draw, discard);
 
-	//dispHand(userHand);
+	dispHand(userHand);
 
 	cout << endl << endl;
 
@@ -299,7 +298,7 @@ int startingDraw(vector<Card> &c) {
 			cin >> userNum;
 
 			do {		//general check to make sure the numbers are not the same
-				compNum = (rand() % 52) + 1;
+				compNum = (rand() % 52);
 			} while (compNum == userNum);
 
 			if ((1 > userNum) || (userNum > 52)) {
@@ -526,10 +525,7 @@ void sortHand(Hand &h) {
 
 	//RUN CHECK --------------------------------------------------------------------------
 
-	cout << "into runs - ";
 	for (int i = 0; i < (checkRun.size()); i++) {	//iterates through all remaining cards
-
-		cout << checkRun.at(i) << " ";		//====================================================
 
 		switch (checkRun.at(i).suit) {		//sorts cards into appropriate vector based on suit
 		case 1:
@@ -551,17 +547,12 @@ void sortHand(Hand &h) {
 	}
 
 	checkRun.clear();
-
-	cout << endl; //==============================================================
-
 	
 	if (heart.size() > 2) {
 
 		for (int i = 0; i < heart.size() - 2; i++) {
 			checkRun.push_back(heart.at(i));
-			cout << checkRun.back() << " ";	//======================
 			checkRun.push_back(heart.at(i + 1));
-			cout << checkRun.back() << " ";	//==================
 
 			int j = i + 2;
 
@@ -570,26 +561,39 @@ void sortHand(Hand &h) {
 				if (j < heart.size()) {
 					checkRun.push_back(heart.at(j));
 					j++;
-					cout << checkRun.back() << "| ";	//==================
 				}
 				else {
 					break;
 				}
 			}
-			cout << j << " heart " << heart.size() << endl;	//==========
-
 			if (checkRun.back().face != checkRun.at(checkRun.size() - 2).face + 1) {
 				checkRun.pop_back();
 			}
 
 			if (checkRun.size() > 2) {
 				h.run.insert(h.run.end(), checkRun.begin(), checkRun.end());
-				for (i; i < j; i++) {
-					checkRun.erase(checkRun.begin() + i);
+
+				if (checkRun.size() == heart.size()) {
+					heart.clear();
+				}
+				else {
+					for (int k = 0; k < checkRun.size(); k++) {
+						for (int l = heart.size() - 1; l >= 0; l--) {
+							if (checkRun.at(k) == heart.at(l)) {
+								heart.erase(heart.begin() + l);
+								break;
+							}
+						}
+
+					}
 				}
 			}
 
 			checkRun.clear();
+
+			if (heart.size() < 3) {
+				break;
+			}
 		}
 	}
 
@@ -597,9 +601,7 @@ void sortHand(Hand &h) {
 
 		for (int i = 0; i < diamond.size() - 2; i++) {
 			checkRun.push_back(diamond.at(i));
-			cout << checkRun.back() << " ";	//==================
 			checkRun.push_back(diamond.at(i + 1));
-			cout << checkRun.back() << " ";	//==================
 
 			int j = i + 2;
 
@@ -608,13 +610,11 @@ void sortHand(Hand &h) {
 				if (j < diamond.size()) {
 					checkRun.push_back(diamond.at(j));
 					j++;
-					cout << checkRun.back() << "| ";	//==================
 				}
 				else {
 					break;
 				}
-			}		
-			cout << j << " diamond " << diamond.size() << endl;	//==========
+			}	
 
 			if (checkRun.back().face != checkRun.at(checkRun.size() - 2).face + 1) {
 				checkRun.pop_back();
@@ -622,22 +622,36 @@ void sortHand(Hand &h) {
 
 			if (checkRun.size() > 2) {
 				h.run.insert(h.run.end(), checkRun.begin(), checkRun.end());
-				for (i; i < j; i++) {
-					checkRun.erase(checkRun.begin() + i);
+
+				if (checkRun.size() == diamond.size()) {
+					diamond.clear();
+				}
+				else {
+					for (int k = 0; k < checkRun.size(); k++) {
+						for (int l = diamond.size() - 1; l >= 0; l--) {
+							if (checkRun.at(k) == diamond.at(l)) {
+								diamond.erase(diamond.begin() + l);
+								break;
+							}
+						}
+					}
 				}
 			}
 
 			checkRun.clear();
+
+			if (diamond.size() < 3) {
+				break;
+			}
 		}
 	}
 
 	if (spade.size() > 2) {
 
 		for (int i = 0; i < spade.size() - 2; i++) {
+
 			checkRun.push_back(spade.at(i));
-			cout << checkRun.back() << " ";	//==================
 			checkRun.push_back(spade.at(i + 1));
-			cout << checkRun.back() << " ";	//==================
 
 			int j = i + 2;
 
@@ -646,13 +660,11 @@ void sortHand(Hand &h) {
 				if (j < spade.size()) {
 					checkRun.push_back(spade.at(j));
 					j++;
-					cout << checkRun.back() << "| ";	//==================
 				}
 				else {
 					break;
 				}
 			}
-			cout << j << " spade " << spade.size() << endl;	//==========
 
 			if (checkRun.back().face != checkRun.at(checkRun.size() - 2).face + 1) {
 				checkRun.pop_back();
@@ -660,23 +672,38 @@ void sortHand(Hand &h) {
 
 			if (checkRun.size() > 2) {
 				h.run.insert(h.run.end(), checkRun.begin(), checkRun.end());
-				for (i; i < j; i++) {
-					checkRun.erase(checkRun.begin() + i);
+				//spade.erase(spade.begin() + i, spade.begin() + j);
+
+				if (checkRun.size() == spade.size()) {
+					spade.clear();
+				}
+				else {
+					for (int k = 0; k < checkRun.size(); k++) {
+						for (int l = spade.size() - 1; l >= 0; l--) {
+							if (checkRun.at(k) == spade.at(l)) {
+								spade.erase(spade.begin() + l);
+								break;
+							}
+						}
+					}
 				}
 			}
 
 			checkRun.clear();
+			
+			if (spade.size() < 3) {
+				break;
+			}
+
 		}
 	}
 
 	if (club.size() > 2) {
 
 		for (int i = 0; i < club.size() - 2; i++) {
+
 			checkRun.push_back(club.at(i));
-			cout << checkRun.back() << " ";	//==================
 			checkRun.push_back(club.at(i + 1));
-			cout << checkRun.back() << " ";	//==================
-			//cout << "size" << checkRun.size() << " ";	//==============
 
 			int j = i + 2;
 
@@ -685,35 +712,41 @@ void sortHand(Hand &h) {
 				if (j < club.size()) {
 					checkRun.push_back(club.at(j));
 					j++;
-					cout << checkRun.back() << "| ";	//==================
 				}
 				else {
 					break;
 				}
 			}
-			cout << j << " club " << club.size() << " " << endl;	//==========
+
 			if (checkRun.back().face != checkRun.at(checkRun.size() - 2).face + 1) {
 				checkRun.pop_back();
 			}
 			if (checkRun.size() > 2) {
 				h.run.insert(h.run.end(), checkRun.begin(), checkRun.end());
-				for (i; i < j; i++) {
-					checkRun.erase(checkRun.begin() + i);
+
+				if (checkRun.size() == club.size()) {
+					club.clear();
+				}
+				else {
+					for (int k = 0; k < checkRun.size(); k++) {
+						for (int l = club.size() - 1; l >= 0; l--) {
+							if (checkRun.at(k) == club.at(l)) {
+								club.erase(club.begin() + l);
+								break;
+							}
+						}
+					}
 				}
 			}
 
 			checkRun.clear();
 
+			if (club.size() < 3) {
+				break;
+			}
 		}
 	}
 	
-	cout << endl;
-
-	cout << h.run.size() << "RUN - ";
-	for (int i = 0; i < h.run.size(); i++) {
-		cout <<  h.run.at(i) << " ";
-	}
-	cout << endl;		//========================================
 
 	//add all remaining cards to deadwood ------------------------------
 
@@ -727,12 +760,6 @@ void sortHand(Hand &h) {
 	
 		sum = sum + h.deadwood.at(i).val;
 	}
-
-	cout << h.deadwood.size() << "dead - ";		//==============================
-	for (int i = 0; i < h.deadwood.size(); i++) {
-		cout << h.deadwood.at(i) << " ";
-	}
-	cout << endl;
 
 	h.deadPoints = sum;
 }
@@ -980,19 +1007,4 @@ void dispHand(Hand &h) {
 	}
 
 	cout << endl;
-
-	for(int i = 0; i < h.all.size(); i++) {
-		cout << h.all.at(i) << " ";
-	}
-
-	cout << endl;
-}
-
-bool isThisAFuckingRun(vector<Card> &suit, int i) {
-	if (suit.at(i - 1).val == (suit.at(i).val - 1)) {
-		return true;
-	}
-	else {
-		return false;
-	}
 }
