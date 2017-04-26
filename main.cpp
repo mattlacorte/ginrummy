@@ -102,6 +102,8 @@ int main()
 	bool userKnock = false;		//true if user decides to knock or if gin
 	bool compKnock = false;		//true if computer knocks or if gin
 
+	Card tempCard(2, 4, 2);
+
 	//END OF VARIABLES -----------------------------------------
 
 
@@ -116,24 +118,32 @@ int main()
 
 	dealCards(compHand, userHand, fullDeck);
 
-	//sortHand(compHand);
+	sortHand(compHand);
 	sortHand(userHand);
 
 
 	setDraw(fullDeck, draw);
-	setDiscard(draw, discard);
+	
 
-	dispHand(userHand);
+	
+	setDiscard(draw, discard);
 
 	cout << endl << endl;
 
-	//userKnock = userPick(userHand, draw, discard);
+	//clear();
 
-	//dispHand(userHand);
+	userKnock = userPick(userHand, draw, discard);
+
+	sortHand(userHand);
+
+	cout << "  This is your current hand  " << endl;
+	cout << "=============================" << endl;
+	dispHand(userHand);
+
 
 	//cout << endl;
 
-	/*if (firstPlayer == 1) {
+	if (firstPlayer == 1) {
 		do {
 			sortHand(userHand);
 
@@ -150,14 +160,14 @@ int main()
 
 
 		} while (!userKnock && !compKnock);
-	//}
-		/*
+	}
+		
 	else {
 		do {
 
 		} while (!userKnock && !compKnock);
 	}
-	*/
+	
 
 
 	return 0;
@@ -343,8 +353,7 @@ void dealCards(Hand &comp, Hand &user, vector<Card> &c) {
 
 void setDraw(vector<Card> &c, stack<Card> &d) {
 	for (int i = 0; i < c.size(); i++) {
-		d.push(c.back());
-
+		d.push(c.at(i));
 	}
 }
 
@@ -381,9 +390,14 @@ void sortHand(Hand &h) {
 	vector<Card> spade;
 	vector<Card> club;
 
+	//CLEAR ALL SET & RUN & DEADWOOD ------------------------------------------
+
+	h.set.clear();
+	h.run.clear();
+	h.deadwood.clear();
 	//SET CHECK ---------------------------------------------------------------
 
-	for (int i = 0; i < 10; i++) {	//iterates through all cards
+	for (int i = 0; i < h.all.size(); i++) {	//iterates through all cards
 		switch (h.all.at(i).face) {	//adds all cards to appropriate face vector
 		case 1:
 			card1.push_back(h.all.at(i));
@@ -523,9 +537,23 @@ void sortHand(Hand &h) {
 	checkRun.insert(checkRun.end(), card12.begin(), card12.end());
 	checkRun.insert(checkRun.end(), card13.begin(), card13.end());
 
+	if (h.set.size() == checkRun.size()) {
+		checkRun.clear();
+	}
+	else {
+		for (int k = 0; k < h.set.size(); k++) {
+			for (int l = checkRun.size() - 1; l >= 0; l--) {
+				if (h.set.at(k) == checkRun.at(l)) {
+					checkRun.erase(spade.begin() + l);
+					break;
+				}
+			}
+		}
+	}
+
 	//RUN CHECK --------------------------------------------------------------------------
 
-	for (int i = 0; i < (checkRun.size()); i++) {	//iterates through all remaining cards
+	for (int i = 0; i < checkRun.size(); i++) {	//iterates through all remaining cards
 
 		switch (checkRun.at(i).suit) {		//sorts cards into appropriate vector based on suit
 		case 1:
@@ -747,7 +775,6 @@ void sortHand(Hand &h) {
 		}
 	}
 	
-
 	//add all remaining cards to deadwood ------------------------------
 
 	h.deadwood.insert(h.deadwood.end(), heart.begin(), heart.end());
@@ -762,13 +789,25 @@ void sortHand(Hand &h) {
 	}
 
 	h.deadPoints = sum;
+
+	//resorts ALL to be nice and orderly -------------------------------
+
+	if (!h.set.empty()) {
+		h.all.insert(h.all.end(), h.set.begin(), h.set.end());
+	}
+	if (!h.run.empty()) {
+		h.all.insert(h.all.end(), h.run.begin(), h.run.end());
+	}
+	if (!h.deadwood.empty()) {
+		h.all.insert(h.all.end(), h.deadwood.begin(), h.deadwood.end());
+	}
+	
 }
 
 void clear() {
 	system("CLS");
 }
 
-//prints instructions
 void instructions() {
 	clear();
 
@@ -824,7 +863,6 @@ void instructions() {
 	mainMenu();
 }
 
-//prints main menu
 void mainMenu() {
 	clear();
 
@@ -851,6 +889,9 @@ void mainMenu() {
 	}
 	else if (mainMenuChoice == 3) {
 		exit(1);
+	}
+	else {
+		mainMenu();
 	}
 }
 
@@ -900,8 +941,10 @@ void endMenu(int compScore, int userScore) {
 bool userPick(Hand &h, stack<Card> &draw, stack<Card> &discard) {
 	char userKnockChoice = '?';
 	char userDiscardChoice = '?';
+
 	bool knockChoice = false;	//true if user wants to knock, or if GIN(deadwood = 0;)
 	bool discardChoice;		//true if user chose from discard
+
 	int userCardDrop;		//stores the card number for the user to drop
 
 	Card tempUserCard;
@@ -931,33 +974,29 @@ bool userPick(Hand &h, stack<Card> &draw, stack<Card> &discard) {
 		}
 	}
 
-	//if deadwood > 10
+	if (knockChoice) {
+		return knockChoice;
+	}
+	//if deadwood > 10 or user does not want to knock
 	else {
 
 		cout << "The current card on top of the discard pile is " << discard.top() << ". Would you like to choose it? [Y/N]" << endl;
-
+		
 		cin >> userDiscardChoice;
 
-		if (userDiscardChoice == ('y' || 'Y')) {
-			Card tempUserCard(discard.top());
+		if ((userDiscardChoice == 'y') || (userDiscardChoice == 'Y')) {
+			tempUserCard = discard.top();
 
 			discard.pop();
 			discardChoice = true;
 		}
-		else if (userDiscardChoice == ('n' || 'N')) {
-			Card tempUserCard(draw.top());
+		else if ((userDiscardChoice == 'n') || (userDiscardChoice == 'N')) {
+			tempUserCard = draw.top();
 
+			cout << "Drawn Card: " << tempUserCard << endl;
 			draw.pop();
 			discardChoice = false;
 		}
-
-		clear();
-
-		cout << "Current Hand: " << endl;
-		dispHand(h);
-
-		cout << "Drawn Card: " << endl;
-		cout << tempUserCard << endl;
 
 		if (discardChoice) {
 			cout << "You may not get rid of the card you just drew. Please pick a card [1 - 10] from your hand to add to the discard pile." << endl;
@@ -969,6 +1008,8 @@ bool userPick(Hand &h, stack<Card> &draw, stack<Card> &discard) {
 		}
 
 		if (userCardDrop < 11) {
+			discard.push(h.all.at(userCardDrop - 1));
+
 			h.all.erase(h.all.begin() + (userCardDrop - 1));
 
 			h.all.push_back(tempUserCard);
@@ -977,16 +1018,18 @@ bool userPick(Hand &h, stack<Card> &draw, stack<Card> &discard) {
 			discard.push(tempUserCard);
 		}
 
-		//sort hand, display
+		//sortHand(h);
+
+		clear();
 	}
-
-
-	return knockChoice;
 }
 
 void dispHand(Hand &h) {
-
+	for (int i = 0; i < h.all.size(); i++) {
+		cout << h.all.at(i) << " ";
+	}
 	
+	/*
 	if (h.set.size() > 0) {
 		for (int i = 0; i < h.set.size(); i++) {
 			cout << h.set.at(i) << " ";
@@ -1005,6 +1048,8 @@ void dispHand(Hand &h) {
 			cout << h.deadwood.at(i) << " ";
 		}
 	}
+	*/
+	
 
 	cout << endl;
 }
