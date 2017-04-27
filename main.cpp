@@ -125,15 +125,9 @@ int main()
 	//sortHand(compHand);
 	sortHand(userHand);
 
-	cout << "init hand sort" << endl;
-
 	setDraw(fullDeck, draw);
 	
-	cout << "set draw" << endl;
-	
 	setDiscard(draw, discard);
-
-	cout << "set discard" << endl;
 
 	cout << endl << endl;
 
@@ -205,9 +199,7 @@ bool operator > (const Card& AI, const Card& Human) {
 }
 
 bool operator == (const Card& AI, const Card& Human) {
-	return (AI.face == Human.face,
-		AI.suit == Human.suit,
-		AI.val == Human.val);
+	return ((AI.face == Human.face) && (AI.suit == Human.suit) && (AI.val == Human.val));
 }
 
 ostream& operator << (ostream& outStream, const Card& hand) {
@@ -409,7 +401,6 @@ void sortHand(Hand &h) {
 
 	//CLEAR ALL SET & RUN & DEADWOOD ------------------------------------------
 
-	cout << "all size: " << h.all.size() << endl;//==========================
 	h.set.clear();
 	h.run.clear();
 	h.deadwood.clear();
@@ -459,20 +450,6 @@ void sortHand(Hand &h) {
 			break;
 		}
 	}
-
-	cout << card1.size() << endl;
-	cout << card2.size() << endl;
-	cout << card3.size() << endl;
-	cout << card4.size() << endl;
-	cout << card5.size() << endl;
-	cout << card6.size() << endl;
-	cout << card7.size() << endl;
-	cout << card8.size() << endl;
-	cout << card9.size() << endl;
-	cout << card10.size() << endl;
-	cout << card11.size() << endl;
-	cout << card12.size() << endl;
-	cout << card13.size() << endl;
 
 	//If set (more than 3), add to the "set" vector in hand
 	if (card1.size() > 2) {
@@ -598,7 +575,6 @@ void sortHand(Hand &h) {
 	checkRun.insert(checkRun.end(), card12.begin(), card12.end());
 	checkRun.insert(checkRun.end(), card13.begin(), card13.end());
 	*/
-	cout << "set push back" << endl; //================================
 
 	for (int i = 0; i < card1.size(); i++) {
 		checkRun.push_back(card1.at(i));
@@ -639,33 +615,21 @@ void sortHand(Hand &h) {
 	for (int i = 0; i < card13.size(); i++) {
 		checkRun.push_back(card13.at(i));
 	}
-	cout << "end push back" << endl;//====================
 
 	if (h.set.size() == checkRun.size()) {
 		checkRun.clear();
 	}
 	else {
 
-		cout << checkRun.size() << " - " << h.set.size() << endl;
-		cout << "start for" << endl;
 		for (int k = 0; k < h.set.size(); k++) {
 			for (int l = checkRun.size() - 1; l >= 0; l--) {
-				cout << "through-for ";
-				cout << h.set.at(k) << " - " << checkRun.at(l) << endl;
 				if (h.set.at(k) == checkRun.at(l)) {
-					cout << "into-if ";
 					checkRun.erase(checkRun.begin() + l);
-					cout << "erased";
 					//break;
 				}
 			}
 		}
 	}
-
-	for (int i = 0; i < h.set.size(); i++) {
-		cout << h.set.at(i) << " ";
-	}
-	cout << endl;
 
 	cout << "runCheck" << endl; //==========================
 	//RUN CHECK --------------------------------------------------------------------------
@@ -694,6 +658,7 @@ void sortHand(Hand &h) {
 	checkRun.clear();
 	
 	cout << "run: " << h.all.size() << endl;//==================================
+	
 	if (heart.size() > 2) {
 
 		for (int i = 0; i < heart.size() - 2; i++) {
@@ -901,10 +866,9 @@ void sortHand(Hand &h) {
 				break;
 			}
 		}
-		cout << "end sort" << endl;
-
-		return;
 	}
+
+	cout << "end sort" << endl;//===============
 
 	//add all remaining cards to deadwood ------------------------------
 	
@@ -925,6 +889,9 @@ void sortHand(Hand &h) {
 	}
 	//h.deadwood.insert(h.deadwood.end(), club.begin(), club.end());
 	
+	cout << "all added to dead" << endl;//===============
+
+
 	//deadPoints assigned. Iterate through and sum the val
 	for (int i = 0; i < h.deadwood.size(); i++) {
 	
@@ -932,6 +899,8 @@ void sortHand(Hand &h) {
 	}
 
 	h.deadPoints = sum;
+
+	cout << "dead calculated" << endl;
 
 	//resorts ALL to be nice and orderly -------------------------------
 	h.all.clear();
@@ -944,7 +913,7 @@ void sortHand(Hand &h) {
 	}
 	if (!h.run.empty()) {
 		for (int i = 0; i < h.run.size(); i++) {
-			h.all.push_back(h.all.at(i));
+			h.all.push_back(h.run.at(i));
 		}
 		//h.all.insert(h.all.end(), h.run.begin(), h.run.end());
 	}
@@ -954,6 +923,8 @@ void sortHand(Hand &h) {
 		}
 		//h.all.insert(h.all.end(), h.deadwood.begin(), h.deadwood.end());
 	}
+
+	cout << "end sort" << endl;
 	
 }
 
