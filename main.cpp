@@ -80,6 +80,9 @@ bool userPick(Hand &h, stack<Card> &draw, stack<Card> &discard);
 
 void dispHand(Hand &h);
 
+void AIPick(Hand &h, stack <Card> &draw, stack <Card> &discard);
+
+void AIDiscard(Hand &h, stack <Card> &discard);
 
 
 int main()
@@ -117,22 +120,26 @@ int main()
 	firstPlayer = startingDraw(fullDeck);		//1 if user, 2 if computer
 
 	dealCards(compHand, userHand, fullDeck);
-
-	sortHand(compHand);
+	cout << "inti hand   ";
+	dispHand(userHand);
+	//sortHand(compHand);
 	sortHand(userHand);
 
+	cout << "init hand sort" << endl;
 
 	setDraw(fullDeck, draw);
 	
-
+	cout << "set draw" << endl;
 	
 	setDiscard(draw, discard);
+
+	cout << "set discard" << endl;
 
 	cout << endl << endl;
 
 	//clear();
 
-	userKnock = userPick(userHand, draw, discard);
+	//userKnock = userPick(userHand, draw, discard);
 
 	sortHand(userHand);
 
@@ -140,16 +147,24 @@ int main()
 	cout << "=============================" << endl;
 	dispHand(userHand);
 
-
+	/*
 	//cout << endl;
 
 	if (firstPlayer == 1) {
 		do {
+
+			if (draw.empty()) {
+				break;
+			}
+
 			sortHand(userHand);
 
 			userKnock = userPick(userHand, draw, discard);
 
 			if (userKnock) {
+				break;
+			}
+			if (draw.empty()) {
 				break;
 			}
 
@@ -159,7 +174,7 @@ int main()
 
 
 
-		} while (!userKnock && !compKnock);
+		} while (!userKnock && !compKnock && !draw.empty());
 	}
 		
 	else {
@@ -167,8 +182,10 @@ int main()
 
 		} while (!userKnock && !compKnock);
 	}
-	
+	*/
 
+	//AIPick(compHand, draw, discard);
+	cout << "back to main" << endl;
 
 	return 0;
 }
@@ -392,9 +409,11 @@ void sortHand(Hand &h) {
 
 	//CLEAR ALL SET & RUN & DEADWOOD ------------------------------------------
 
+	cout << "all size: " << h.all.size() << endl;//==========================
 	h.set.clear();
 	h.run.clear();
 	h.deadwood.clear();
+
 	//SET CHECK ---------------------------------------------------------------
 
 	for (int i = 0; i < h.all.size(); i++) {	//iterates through all cards
@@ -444,85 +463,125 @@ void sortHand(Hand &h) {
 	//If set (more than 3), add to the "set" vector in hand
 	if (card1.size() > 2) {
 		for (int i = 0; i < card1.size(); i++) {
-			h.set.insert(h.set.end(), card1.begin(), card1.end());
+			for (int i = 0; i < card1.size(); i++) {
+				h.set.push_back(card1.at(i));
+			}
+			//h.set.insert(h.set.end(), card1.begin(), card1.end());
 			card1.clear();
 		}
 	}
 	if (card2.size() > 2) {
 		for (int i = 0; i < card2.size(); i++) {
-			h.set.insert(h.set.end(), card2.begin(), card2.end());
+			for (int i = 0; i < card2.size(); i++) {
+				h.set.push_back(card2.at(i));
+			}
+			//h.set.insert(h.set.end(), card2.begin(), card2.end());
 			card2.clear();
 		}
 	}
 	if (card3.size() > 2) {
 		for (int i = 0; i < card3.size(); i++) {
-			h.set.insert(h.set.end(), card3.begin(), card3.end());
+			for (int i = 0; i < card3.size(); i++) {
+				h.set.push_back(card3.at(i));
+			}
+			//h.set.insert(h.set.end(), card3.begin(), card3.end());
 			card3.clear();
 		}
 	}
 	if (card4.size() > 2) {
 		for (int i = 0; i < card4.size(); i++) {
-			h.set.insert(h.set.end(), card4.begin(), card4.end());
+			for (int i = 0; i < card4.size(); i++) {
+				h.set.push_back(card4.at(i));
+			}
+			//h.set.insert(h.set.end(), card4.begin(), card4.end());
 			card4.clear();
 		}
 	}
 	if (card5.size() > 2) {
 		for (int i = 0; i < card5.size(); i++) {
-			h.set.insert(h.set.end(), card5.begin(), card5.end());
+			for (int i = 0; i < card5.size(); i++) {
+				h.set.push_back(card5.at(i));
+			}
+			//h.set.insert(h.set.end(), card5.begin(), card5.end());
 			card5.clear();
 		}
 	}
 	if (card6.size() > 2) {
 		for (int i = 0; i < card6.size(); i++) {
-			h.set.insert(h.set.end(), card6.begin(), card6.end());
+			for (int i = 0; i < card6.size(); i++) {
+				h.set.push_back(card6.at(i));
+			}
+			//h.set.insert(h.set.end(), card6.begin(), card6.end());
 			card6.clear();
 		}
 	}
 	if (card7.size() > 2) {
 		for (int i = 0; i < card7.size(); i++) {
-			h.set.insert(h.set.end(), card7.begin(), card7.end());
+			for (int i = 0; i < card7.size(); i++) {
+				h.set.push_back(card7.at(i));
+			}
+			//h.set.insert(h.set.end(), card7.begin(), card7.end());
 			card7.clear();
 		}
 	}
 	if (card8.size() > 2) {
 		for (int i = 0; i < card8.size(); i++) {
-			h.set.insert(h.set.end(), card8.begin(), card8.end());
+			for (int i = 0; i < card8.size(); i++) {
+				h.set.push_back(card8.at(i));
+			}
+			//h.set.insert(h.set.end(), card8.begin(), card8.end());
 			card8.clear();
 		}
 	}
 	if (card9.size() > 2) {
 		for (int i = 0; i < card9.size(); i++) {
-			h.set.insert(h.set.end(), card9.begin(), card9.end());
+			for (int i = 0; i < card9.size(); i++) {
+				h.set.push_back(card9.at(i));
+			}
+			//h.set.insert(h.set.end(), card9.begin(), card9.end());
 			card9.clear();
 		}
 	}
 	if (card10.size() > 2) {
 		for (int i = 0; i < card10.size(); i++) {
-			h.set.insert(h.set.end(), card10.begin(), card10.end());
+			for (int i = 0; i < card10.size(); i++) {
+				h.set.push_back(card10.at(i));
+			}
+			//h.set.insert(h.set.end(), card10.begin(), card10.end());
 			card10.clear();
 		}
 	}
 	if (card11.size() > 2) {
 		for (int i = 0; i < card11.size(); i++) {
-			h.set.insert(h.set.end(), card11.begin(), card11.end());
+			for (int i = 0; i < card11.size(); i++) {
+				h.set.push_back(card11.at(i));
+			}
+			//h.set.insert(h.set.end(), card11.begin(), card11.end());
 			card11.clear();
 		}
 	}
 	if (card12.size() > 2) {
 		for (int i = 0; i < card12.size(); i++) {
-			h.set.insert(h.set.end(), card12.begin(), card12.end());
+			for (int i = 0; i < card12.size(); i++) {
+				h.set.push_back(card12.at(i));
+			}
+			//h.set.insert(h.set.end(), card12.begin(), card12.end());
 			card12.clear();
 		}
 	}
 	if (card13.size() > 2) {
 		for (int i = 0; i < card13.size(); i++) {
-			h.set.insert(h.set.end(), card13.begin(), card13.end());
+			for (int i = 0; i < card13.size(); i++) {
+				h.set.push_back(card13.at(i));
+			}
+			//h.set.insert(h.set.end(), card13.begin(), card13.end());
 			card13.clear();
 		}
 	}
 
 	
 	//add all remaining cards to a single vector
+	/*
 	checkRun.insert(checkRun.end(), card1.begin(), card1.end());
 	checkRun.insert(checkRun.end(), card2.begin(), card2.end());
 	checkRun.insert(checkRun.end(), card3.begin(), card3.end());
@@ -536,13 +595,58 @@ void sortHand(Hand &h) {
 	checkRun.insert(checkRun.end(), card11.begin(), card11.end());
 	checkRun.insert(checkRun.end(), card12.begin(), card12.end());
 	checkRun.insert(checkRun.end(), card13.begin(), card13.end());
+	*/
+	cout << "set push back" << endl; //================================
+
+	for (int i = 0; i < card1.size(); i++) {
+		checkRun.push_back(card1.at(i));
+	}
+	for (int i = 0; i < card2.size(); i++) {
+		checkRun.push_back(card2.at(i));
+	}
+	for (int i = 0; i < card3.size(); i++) {
+		checkRun.push_back(card3.at(i));
+	}
+	for (int i = 0; i < card4.size(); i++) {
+		checkRun.push_back(card4.at(i));
+	}
+	for (int i = 0; i < card5.size(); i++) {
+		checkRun.push_back(card5.at(i));
+	}
+	for (int i = 0; i < card6.size(); i++) {
+		checkRun.push_back(card6.at(i));
+	}
+	for (int i = 0; i < card7.size(); i++) {
+		checkRun.push_back(card7.at(i));
+	}
+	for (int i = 0; i < card8.size(); i++) {
+		checkRun.push_back(card8.at(i));
+	}
+	for (int i = 0; i < card9.size(); i++) {
+		checkRun.push_back(card9.at(i));
+	}
+	for (int i = 0; i < card10.size(); i++) {
+		checkRun.push_back(card10.at(i));
+	}
+	for (int i = 0; i < card11.size(); i++) {
+		checkRun.push_back(card11.at(i));
+	}
+	for (int i = 0; i < card12.size(); i++) {
+		checkRun.push_back(card12.at(i));
+	}
+	for (int i = 0; i < card13.size(); i++) {
+		checkRun.push_back(card13.at(i));
+	}
+	cout << "end push back" << endl;//====================
 
 	if (h.set.size() == checkRun.size()) {
 		checkRun.clear();
 	}
 	else {
+		cout << "start for" << endl;
 		for (int k = 0; k < h.set.size(); k++) {
 			for (int l = checkRun.size() - 1; l >= 0; l--) {
+				cout << "through for ";
 				if (h.set.at(k) == checkRun.at(l)) {
 					checkRun.erase(spade.begin() + l);
 					break;
@@ -551,6 +655,7 @@ void sortHand(Hand &h) {
 		}
 	}
 
+	cout << "runCheck" << endl; //==========================
 	//RUN CHECK --------------------------------------------------------------------------
 
 	for (int i = 0; i < checkRun.size(); i++) {	//iterates through all remaining cards
@@ -576,6 +681,7 @@ void sortHand(Hand &h) {
 
 	checkRun.clear();
 	
+	cout << "run: " << h.all.size() << endl;//==================================
 	if (heart.size() > 2) {
 
 		for (int i = 0; i < heart.size() - 2; i++) {
@@ -599,7 +705,10 @@ void sortHand(Hand &h) {
 			}
 
 			if (checkRun.size() > 2) {
-				h.run.insert(h.run.end(), checkRun.begin(), checkRun.end());
+				for (int i = 0; i < checkRun.size(); i++) {
+					h.run.push_back(checkRun.at(i));
+				}
+				//h.run.insert(h.run.end(), checkRun.begin(), checkRun.end());
 
 				if (checkRun.size() == heart.size()) {
 					heart.clear();
@@ -649,7 +758,10 @@ void sortHand(Hand &h) {
 			}
 
 			if (checkRun.size() > 2) {
-				h.run.insert(h.run.end(), checkRun.begin(), checkRun.end());
+				for (int i = 0; i < checkRun.size(); i++) {
+					h.run.push_back(checkRun.at(i));
+				}
+				//h.run.insert(h.run.end(), checkRun.begin(), checkRun.end());
 
 				if (checkRun.size() == diamond.size()) {
 					diamond.clear();
@@ -699,8 +811,10 @@ void sortHand(Hand &h) {
 			}
 
 			if (checkRun.size() > 2) {
-				h.run.insert(h.run.end(), checkRun.begin(), checkRun.end());
-				//spade.erase(spade.begin() + i, spade.begin() + j);
+				for (int i = 0; i < checkRun.size(); i++) {
+					h.run.push_back(checkRun.at(i));
+				}
+				//h.run.insert(h.run.end(), checkRun.begin(), checkRun.end());
 
 				if (checkRun.size() == spade.size()) {
 					spade.clear();
@@ -750,7 +864,10 @@ void sortHand(Hand &h) {
 				checkRun.pop_back();
 			}
 			if (checkRun.size() > 2) {
-				h.run.insert(h.run.end(), checkRun.begin(), checkRun.end());
+				for (int i = 0; i < checkRun.size(); i++) {
+					h.run.push_back(checkRun.at(i));
+				}
+				//h.run.insert(h.run.end(), checkRun.begin(), checkRun.end());
 
 				if (checkRun.size() == club.size()) {
 					club.clear();
@@ -766,22 +883,36 @@ void sortHand(Hand &h) {
 					}
 				}
 			}
-
 			checkRun.clear();
 
 			if (club.size() < 3) {
 				break;
 			}
 		}
+		cout << "end sort" << endl;
+
+		return;
 	}
-	
+
 	//add all remaining cards to deadwood ------------------------------
-
-	h.deadwood.insert(h.deadwood.end(), heart.begin(), heart.end());
-	h.deadwood.insert(h.deadwood.end(), diamond.begin(), diamond.end());
-	h.deadwood.insert(h.deadwood.end(), spade.begin(), spade.end());
-	h.deadwood.insert(h.deadwood.end(), club.begin(), club.end());
-
+	
+	for (int i = 0; i < heart.size(); i++) {
+		h.deadwood.push_back(heart.at(i));
+	}
+	//h.deadwood.insert(h.deadwood.end(), heart.begin(), heart.end());
+	for (int i = 0; i < diamond.size(); i++) {
+		h.deadwood.push_back(diamond.at(i));
+	}
+	//h.deadwood.insert(h.deadwood.end(), diamond.begin(), diamond.end());
+	for (int i = 0; i < spade.size(); i++) {
+		h.deadwood.push_back(spade.at(i));
+	}
+	//h.deadwood.insert(h.deadwood.end(), spade.begin(), spade.end());
+	for (int i = 0; i < club.size(); i++) {
+		h.deadwood.push_back(club.at(i));
+	}
+	//h.deadwood.insert(h.deadwood.end(), club.begin(), club.end());
+	
 	//deadPoints assigned. Iterate through and sum the val
 	for (int i = 0; i < h.deadwood.size(); i++) {
 	
@@ -791,15 +922,25 @@ void sortHand(Hand &h) {
 	h.deadPoints = sum;
 
 	//resorts ALL to be nice and orderly -------------------------------
+	h.all.clear();
 
 	if (!h.set.empty()) {
-		h.all.insert(h.all.end(), h.set.begin(), h.set.end());
+		for (int i = 0; i < h.set.size(); i++) {
+			h.all.push_back(h.set.at(i));
+		}
+		//h.all.insert(h.all.end(), h.set.begin(), h.set.end());
 	}
 	if (!h.run.empty()) {
-		h.all.insert(h.all.end(), h.run.begin(), h.run.end());
+		for (int i = 0; i < h.run.size(); i++) {
+			h.all.push_back(h.all.at(i));
+		}
+		//h.all.insert(h.all.end(), h.run.begin(), h.run.end());
 	}
 	if (!h.deadwood.empty()) {
-		h.all.insert(h.all.end(), h.deadwood.begin(), h.deadwood.end());
+		for (int i = 0; i < h.deadwood.size(); i++) {
+			h.all.push_back(h.deadwood.at(i));
+		}
+		//h.all.insert(h.all.end(), h.deadwood.begin(), h.deadwood.end());
 	}
 	
 }
@@ -1052,4 +1193,50 @@ void dispHand(Hand &h) {
 	
 
 	cout << endl;
+}
+
+void AIPick(Hand &h, stack <Card> &draw, stack <Card> &discard) {
+	Hand TempHand;
+	int deadwoodCount, deadwoodSort;
+
+	deadwoodCount = h.deadwood.size();
+
+	memcpy(&TempHand, &h, sizeof Hand);
+
+	dispHand(TempHand);	//*********
+	
+	TempHand.all.push_back(draw.top());
+	
+	dispHand(TempHand);				//**************
+	cout << "pt 1" << endl; //===============
+	
+	sortHand(TempHand);
+	
+	cout << "part 1" << endl;
+
+	dispHand(TempHand);			//******************
+	
+	deadwoodSort = TempHand.deadwood.size();
+
+	cout << "Part 2" << endl; //================
+	
+	if (deadwoodSort > deadwoodCount) {
+		h.all.push_back(draw.top());
+	}
+	else {
+		h.all.push_back(discard.top());
+	}
+	
+	cout << "Part 3" << " ";		//******************
+	dispHand(h);					//******************
+	cout << "end ai" << endl;
+}
+
+//Code for the AI discarding 
+
+void AIDiscard(Hand &h, stack <Card> &discard) {
+	discard.push(h.deadwood.back());
+	h.deadwood.pop_back();
+	cout << "Part 4" << " ";		//******************
+	dispHand(h);					//******************
 }
