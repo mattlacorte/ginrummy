@@ -76,11 +76,11 @@ void endMenu(int compScore, int userScore);
 
 void pause();
 
-bool userPick(Hand &h, stack<Card> &draw, stack<Card> &discard);
+bool userPick(Hand &h, stack<Card> &draw, Card &discard);
 
 void dispHand(Hand &h);
 
-bool AIPick(Hand &h, stack <Card> &draw, stack <Card> &discard);
+bool AIPick(Hand &h, stack <Card> &draw, Card &discard);
 
 int main()
 {
@@ -140,6 +140,8 @@ int main()
 				sortHand(userHand);
 
 				userKnock = userPick(userHand, draw, discard);
+				cout << endl;
+				dispHand(compHand);
 
 				if (userKnock || draw.empty()) {
 					break;
@@ -168,6 +170,8 @@ int main()
 				sortHand(userHand);
 
 				userKnock = userPick(userHand, draw, discard);
+				cout << endl;
+				dispHand(compHand);
 
 			} while (!userKnock && !compKnock);
 		}
@@ -1113,7 +1117,7 @@ bool userPick(Hand &h, stack<Card> &draw, Card &discard) {
 		if ((userDiscardChoice == 'y') || (userDiscardChoice == 'Y')) {
 			tempUserCard = discard;
 
-		//	discard.pop();
+			//	discard.pop();
 			discardChoice = true;
 		}
 		else if ((userDiscardChoice == 'n') || (userDiscardChoice == 'N')) {
@@ -1148,6 +1152,7 @@ bool userPick(Hand &h, stack<Card> &draw, Card &discard) {
 
 		clear();
 	}
+	return knockChoice;
 }
 
 void dispHand(Hand &h) {
@@ -1207,6 +1212,7 @@ bool AIPick(Hand &h, stack <Card> &draw, Card &discard) {
 	for (int i = h.deadwood.size() - 1; i >= 0; i--) {
 		if (h.deadwood.at(i).val > highVal) {
 			posOfVal = 10 - i;
+			highVal = h.deadwood.at(i).val;
 		}
 	}
 
