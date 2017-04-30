@@ -62,7 +62,7 @@ void dealCards(Hand &comp, Hand &user, vector<Card> &c);
 
 void setDraw(vector<Card> &c, stack<Card> &d);
 
-void setDiscard(stack<Card> &draw, stack<Card> &discard);
+void setDiscard(stack<Card> &draw, Card &discard);
 
 void sortHand(Hand &h);
 
@@ -76,23 +76,20 @@ void endMenu(int compScore, int userScore);
 
 void pause();
 
-bool userPick(Hand &h, stack<Card> &draw, stack<Card> &discard);
+bool userPick(Hand &h, stack<Card> &draw, Card &discard);
 
 void dispHand(Hand &h);
 
-void AIPick(Hand &h, stack <Card> &draw, stack <Card> &discard);
-
-void AIDiscard(Hand &h, stack <Card> &discard);
-
+bool AIPick(Hand &h, stack <Card> &draw, Card &discard);
 
 int main()
 {
 	//DEFINE ALL VARIABLES HERE -------------------------------------
 
-	vector<Card> fullDeck;	//stores all cards
+	vector<Card> fullDeck;		//stores all cards
 
-	stack<Card> draw;		//stores cards not yet drawn
-	stack<Card> discard;	//stores cards discarded
+	stack<Card> draw;			//stores cards not yet drawn
+	Card discard;		//stores cards discarded
 
 	Hand compHand;				//stores comp's cards
 	Hand userHand;				//stores user's cards
@@ -101,6 +98,7 @@ int main()
 
 	int compScore = 0;
 	int userScore = 0;
+	int winningScore = 0;
 
 	bool userKnock = false;		//true if user decides to knock or if gin
 	bool compKnock = false;		//true if computer knocks or if gin
@@ -117,80 +115,108 @@ int main()
 	vectorShuffle(fullDeck);
 	clear();
 
-	firstPlayer = startingDraw(fullDeck);		//1 if user, 2 if computer
+	cout << "What score would you like to play to? ";
+	cin >> winningScore;
+	cout << endl;
 
-	dealCards(compHand, userHand, fullDeck);
-	cout << "inti hand   ";
+	do {
+
+		firstPlayer = startingDraw(fullDeck);		//1 if user, 2 if computer
+
+		dealCards(compHand, userHand, fullDeck);
+
+		sortHand(compHand);
+		sortHand(userHand);
+
+		setDraw(fullDeck, draw);
+
+		setDiscard(draw, discard);
+
+
+
+		if (firstPlayer == 1) {
+			do {
+
+				if (draw.empty()) { break; }
+
+				sortHand(userHand);
+
+				userKnock = userPick(userHand, draw, discard);
+
+				if (userKnock || draw.empty()) {
+					break;
+				}
+
+				sortHand(compHand);
+
+				compKnock = AIPick(compHand, draw, discard);
+
+
+			} while (!userKnock && !compKnock && !draw.empty());
+		}
+
+		else {
+			do {
+				if (draw.empty()) { break; }
+
+				sortHand(compHand);
+
+				compKnock = AIPick(compHand, draw, discard);
+
+				if (compKnock || draw.empty()) {
+					break;
+				}
+
+				sortHand(userHand);
+
+				userKnock = userPick(userHand, draw, discard);
+
+			} while (!userKnock && !compKnock);
+		}
+
+		sortHand(userHand);
+		sortHand(compHand);
+
+		if (userHand.deadPoints < compHand.deadPoints) {
+
+			userScore = userScore + (compHand.deadPoints - userHand.deadPoints);
+			cout << "You win the round! You now have " << userScore << " points." << endl;
+			cout << "The computer now has " << compScore << " points." << endl << endl;
+
+			cout << "Your hand ---- ";
+			dispHand(userHand);
+			cout << "Comp hand ---- ";
+			dispHand(compHand);
+		}
+		else if (userHand.deadPoints > compHand.deadPoints) {
+			compScore = compScore + (userHand.deadPoints - compHand.deadPoints);
+			cout << "You lost the round. You now have " << userScore << " points." << endl;
+			cout << "The computer now has " << compScore << " points." << endl << endl;
+
+			cout << "Your hand ---- ";
+			dispHand(userHand);
+			cout << "Comp hand ---- ";
+			dispHand(compHand);
+		}
+		else {
+			cout << "This round was a tie. Congrats, you are now as smart as a computer." << endl << endl;
+
+			cout << "Your hand ---- ";
+			dispHand(userHand);
+			cout << "Comp hand ---- ";
+			dispHand(compHand);
+		}
+	} while ((userScore < winningScore) && (compScore < winningScore));
+
+	cout << "Your hand ---- ";
 	dispHand(userHand);
-	//sortHand(compHand);
-	sortHand(userHand);
+	cout << "Comp hand ---- ";
+	dispHand(compHand);
 
-	cout << "init hand sort" << endl;
-
-	setDraw(fullDeck, draw);
-	
-	cout << "set draw" << endl;
-	
-	setDiscard(draw, discard);
-
-	cout << "set discard" << endl;
-
-	cout << endl << endl;
-
-	//clear();
-
-	//userKnock = userPick(userHand, draw, discard);
-
-	sortHand(userHand);
-
-	cout << "  This is your current hand  " << endl;
-	cout << "=============================" << endl;
-	dispHand(userHand);
-
-	/*
-	//cout << endl;
-
-	if (firstPlayer == 1) {
-		do {
-
-			if (draw.empty()) {
-				break;
-			}
-
-			sortHand(userHand);
-
-			userKnock = userPick(userHand, draw, discard);
-
-			if (userKnock) {
-				break;
-			}
-			if (draw.empty()) {
-				break;
-			}
-
-			//sortHand(compHand);
-
-			//compKnock = compPick(compHand, draw, discard);		//===================================
-
-
-
-		} while (!userKnock && !compKnock && !draw.empty());
-	}
-		
-	else {
-		do {
-
-		} while (!userKnock && !compKnock);
-	}
-	*/
-
-	//AIPick(compHand, draw, discard);
-	cout << "back to main" << endl;
+	endMenu(compScore, userScore);
 
 	return 0;
 }
-
-
 
 bool operator < (const Card& AI, const Card& Human) {
 	return (AI.face < Human.face,
@@ -205,9 +231,7 @@ bool operator > (const Card& AI, const Card& Human) {
 }
 
 bool operator == (const Card& AI, const Card& Human) {
-	return (AI.face == Human.face,
-		AI.suit == Human.suit,
-		AI.val == Human.val);
+	return ((AI.face == Human.face) && (AI.suit == Human.suit) && (AI.val == Human.val));
 }
 
 ostream& operator << (ostream& outStream, const Card& hand) {
@@ -349,7 +373,7 @@ int startingDraw(vector<Card> &c) {
 		}
 
 	} while (userCardVal == compCardVal);
-	
+
 
 
 	return winner;
@@ -374,8 +398,8 @@ void setDraw(vector<Card> &c, stack<Card> &d) {
 	}
 }
 
-void setDiscard(stack<Card> &draw, stack<Card> &discard) { 
-	discard.push(draw.top());
+void setDiscard(stack<Card> &draw, Card &discard) {
+	discard = draw.top();
 	draw.pop();
 }
 
@@ -409,7 +433,6 @@ void sortHand(Hand &h) {
 
 	//CLEAR ALL SET & RUN & DEADWOOD ------------------------------------------
 
-	cout << "all size: " << h.all.size() << endl;//==========================
 	h.set.clear();
 	h.run.clear();
 	h.deadwood.clear();
@@ -463,123 +486,111 @@ void sortHand(Hand &h) {
 	//If set (more than 3), add to the "set" vector in hand
 	if (card1.size() > 2) {
 		for (int i = 0; i < card1.size(); i++) {
-			for (int i = 0; i < card1.size(); i++) {
-				h.set.push_back(card1.at(i));
-			}
-			//h.set.insert(h.set.end(), card1.begin(), card1.end());
-			card1.clear();
+			h.set.push_back(card1.at(i));
+
 		}
+		//h.set.insert(h.set.end(), card1.begin(), card1.end());
+		card1.clear();
+
 	}
 	if (card2.size() > 2) {
 		for (int i = 0; i < card2.size(); i++) {
-			for (int i = 0; i < card2.size(); i++) {
-				h.set.push_back(card2.at(i));
-			}
-			//h.set.insert(h.set.end(), card2.begin(), card2.end());
-			card2.clear();
+			h.set.push_back(card2.at(i));
 		}
+		//h.set.insert(h.set.end(), card2.begin(), card2.end());
+		card2.clear();
+
 	}
 	if (card3.size() > 2) {
 		for (int i = 0; i < card3.size(); i++) {
-			for (int i = 0; i < card3.size(); i++) {
-				h.set.push_back(card3.at(i));
-			}
-			//h.set.insert(h.set.end(), card3.begin(), card3.end());
-			card3.clear();
+			h.set.push_back(card3.at(i));
 		}
+		//h.set.insert(h.set.end(), card3.begin(), card3.end());
+		card3.clear();
+
 	}
 	if (card4.size() > 2) {
 		for (int i = 0; i < card4.size(); i++) {
-			for (int i = 0; i < card4.size(); i++) {
-				h.set.push_back(card4.at(i));
-			}
-			//h.set.insert(h.set.end(), card4.begin(), card4.end());
-			card4.clear();
+			h.set.push_back(card4.at(i));
 		}
+		//h.set.insert(h.set.end(), card4.begin(), card4.end());
+		card4.clear();
+
 	}
 	if (card5.size() > 2) {
 		for (int i = 0; i < card5.size(); i++) {
-			for (int i = 0; i < card5.size(); i++) {
-				h.set.push_back(card5.at(i));
-			}
-			//h.set.insert(h.set.end(), card5.begin(), card5.end());
-			card5.clear();
+			h.set.push_back(card5.at(i));
 		}
+		//h.set.insert(h.set.end(), card5.begin(), card5.end());
+		card5.clear();
+
 	}
 	if (card6.size() > 2) {
 		for (int i = 0; i < card6.size(); i++) {
-			for (int i = 0; i < card6.size(); i++) {
-				h.set.push_back(card6.at(i));
-			}
-			//h.set.insert(h.set.end(), card6.begin(), card6.end());
-			card6.clear();
+			h.set.push_back(card6.at(i));
 		}
+		//h.set.insert(h.set.end(), card6.begin(), card6.end());
+		card6.clear();
+
 	}
 	if (card7.size() > 2) {
 		for (int i = 0; i < card7.size(); i++) {
-			for (int i = 0; i < card7.size(); i++) {
-				h.set.push_back(card7.at(i));
-			}
-			//h.set.insert(h.set.end(), card7.begin(), card7.end());
-			card7.clear();
+			h.set.push_back(card7.at(i));
 		}
+		//h.set.insert(h.set.end(), card7.begin(), card7.end());
+		card7.clear();
+
 	}
 	if (card8.size() > 2) {
 		for (int i = 0; i < card8.size(); i++) {
-			for (int i = 0; i < card8.size(); i++) {
-				h.set.push_back(card8.at(i));
-			}
-			//h.set.insert(h.set.end(), card8.begin(), card8.end());
-			card8.clear();
+			h.set.push_back(card8.at(i));
 		}
+		//h.set.insert(h.set.end(), card8.begin(), card8.end());
+		card8.clear();
+
 	}
 	if (card9.size() > 2) {
 		for (int i = 0; i < card9.size(); i++) {
-			for (int i = 0; i < card9.size(); i++) {
-				h.set.push_back(card9.at(i));
-			}
-			//h.set.insert(h.set.end(), card9.begin(), card9.end());
-			card9.clear();
+			h.set.push_back(card9.at(i));
 		}
+		//h.set.insert(h.set.end(), card9.begin(), card9.end());
+		card9.clear();
+
 	}
 	if (card10.size() > 2) {
 		for (int i = 0; i < card10.size(); i++) {
-			for (int i = 0; i < card10.size(); i++) {
-				h.set.push_back(card10.at(i));
-			}
-			//h.set.insert(h.set.end(), card10.begin(), card10.end());
-			card10.clear();
+			h.set.push_back(card10.at(i));
 		}
+		//h.set.insert(h.set.end(), card10.begin(), card10.end());
+		card10.clear();
+
 	}
 	if (card11.size() > 2) {
 		for (int i = 0; i < card11.size(); i++) {
-			for (int i = 0; i < card11.size(); i++) {
-				h.set.push_back(card11.at(i));
-			}
-			//h.set.insert(h.set.end(), card11.begin(), card11.end());
-			card11.clear();
+			h.set.push_back(card11.at(i));
 		}
+		//h.set.insert(h.set.end(), card11.begin(), card11.end());
+		card11.clear();
+
 	}
 	if (card12.size() > 2) {
 		for (int i = 0; i < card12.size(); i++) {
-			for (int i = 0; i < card12.size(); i++) {
-				h.set.push_back(card12.at(i));
-			}
-			//h.set.insert(h.set.end(), card12.begin(), card12.end());
-			card12.clear();
+			h.set.push_back(card12.at(i));
 		}
+		//h.set.insert(h.set.end(), card12.begin(), card12.end());
+		card12.clear();
+
 	}
 	if (card13.size() > 2) {
 		for (int i = 0; i < card13.size(); i++) {
-			for (int i = 0; i < card13.size(); i++) {
-				h.set.push_back(card13.at(i));
-			}
-			//h.set.insert(h.set.end(), card13.begin(), card13.end());
-			card13.clear();
+			h.set.push_back(card13.at(i));
 		}
+		//h.set.insert(h.set.end(), card13.begin(), card13.end());
+		card13.clear();
+
 	}
 
-	
+
 	//add all remaining cards to a single vector
 	/*
 	checkRun.insert(checkRun.end(), card1.begin(), card1.end());
@@ -596,7 +607,6 @@ void sortHand(Hand &h) {
 	checkRun.insert(checkRun.end(), card12.begin(), card12.end());
 	checkRun.insert(checkRun.end(), card13.begin(), card13.end());
 	*/
-	cout << "set push back" << endl; //================================
 
 	for (int i = 0; i < card1.size(); i++) {
 		checkRun.push_back(card1.at(i));
@@ -637,25 +647,22 @@ void sortHand(Hand &h) {
 	for (int i = 0; i < card13.size(); i++) {
 		checkRun.push_back(card13.at(i));
 	}
-	cout << "end push back" << endl;//====================
 
 	if (h.set.size() == checkRun.size()) {
 		checkRun.clear();
 	}
 	else {
-		cout << "start for" << endl;
+
 		for (int k = 0; k < h.set.size(); k++) {
 			for (int l = checkRun.size() - 1; l >= 0; l--) {
-				cout << "through for ";
 				if (h.set.at(k) == checkRun.at(l)) {
-					checkRun.erase(spade.begin() + l);
-					break;
+					checkRun.erase(checkRun.begin() + l);
+					//break;
 				}
 			}
 		}
 	}
 
-	cout << "runCheck" << endl; //==========================
 	//RUN CHECK --------------------------------------------------------------------------
 
 	for (int i = 0; i < checkRun.size(); i++) {	//iterates through all remaining cards
@@ -680,8 +687,8 @@ void sortHand(Hand &h) {
 	}
 
 	checkRun.clear();
-	
-	cout << "run: " << h.all.size() << endl;//==================================
+
+
 	if (heart.size() > 2) {
 
 		for (int i = 0; i < heart.size() - 2; i++) {
@@ -691,7 +698,7 @@ void sortHand(Hand &h) {
 			int j = i + 2;
 
 			while (checkRun.at(checkRun.size() - 2).face == (checkRun.at(checkRun.size() - 1).face - 1)) {
-				
+
 				if (j < heart.size()) {
 					checkRun.push_back(heart.at(j));
 					j++;
@@ -751,7 +758,7 @@ void sortHand(Hand &h) {
 				else {
 					break;
 				}
-			}	
+			}
 
 			if (checkRun.back().face != checkRun.at(checkRun.size() - 2).face + 1) {
 				checkRun.pop_back();
@@ -832,7 +839,7 @@ void sortHand(Hand &h) {
 			}
 
 			checkRun.clear();
-			
+
 			if (spade.size() < 3) {
 				break;
 			}
@@ -889,13 +896,11 @@ void sortHand(Hand &h) {
 				break;
 			}
 		}
-		cout << "end sort" << endl;
-
-		return;
 	}
 
+
 	//add all remaining cards to deadwood ------------------------------
-	
+
 	for (int i = 0; i < heart.size(); i++) {
 		h.deadwood.push_back(heart.at(i));
 	}
@@ -912,14 +917,17 @@ void sortHand(Hand &h) {
 		h.deadwood.push_back(club.at(i));
 	}
 	//h.deadwood.insert(h.deadwood.end(), club.begin(), club.end());
-	
+
+
+
 	//deadPoints assigned. Iterate through and sum the val
 	for (int i = 0; i < h.deadwood.size(); i++) {
-	
+
 		sum = sum + h.deadwood.at(i).val;
 	}
 
 	h.deadPoints = sum;
+
 
 	//resorts ALL to be nice and orderly -------------------------------
 	h.all.clear();
@@ -932,7 +940,7 @@ void sortHand(Hand &h) {
 	}
 	if (!h.run.empty()) {
 		for (int i = 0; i < h.run.size(); i++) {
-			h.all.push_back(h.all.at(i));
+			h.all.push_back(h.run.at(i));
 		}
 		//h.all.insert(h.all.end(), h.run.begin(), h.run.end());
 	}
@@ -942,7 +950,8 @@ void sortHand(Hand &h) {
 		}
 		//h.all.insert(h.all.end(), h.deadwood.begin(), h.deadwood.end());
 	}
-	
+
+
 }
 
 void clear() {
@@ -1066,25 +1075,18 @@ void endMenu(int compScore, int userScore) {
 	cout << "You ----------- " << tmpUserScore << endl;
 	cout << "Computer ------ " << tmpCompScore << endl;
 	cout << endl << endl;
-	cout << "Would you like to play again? [Y/N]" << endl;
-	cout << endl;
-	cin >> playAgainChoice;
 
-	if (playAgainChoice == 'Y' || 'y') {
-		mainMenu();
-	}
-	else if (playAgainChoice == 'N' || 'n') {
-		exit(1);
-	}
+	cout << "Thanks for playing!" << endl;
+	cout << "<3 Matt, Jakob, Ludgi, & Alfred" << endl << endl;
 
 }
 
-bool userPick(Hand &h, stack<Card> &draw, stack<Card> &discard) {
+bool userPick(Hand &h, stack<Card> &draw, Card &discard) {
 	char userKnockChoice = '?';
 	char userDiscardChoice = '?';
 
 	bool knockChoice = false;	//true if user wants to knock, or if GIN(deadwood = 0;)
-	bool discardChoice;		//true if user chose from discard
+	bool discardChoice;			//true if user chose from discard
 
 	int userCardDrop;		//stores the card number for the user to drop
 
@@ -1095,6 +1097,7 @@ bool userPick(Hand &h, stack<Card> &draw, stack<Card> &discard) {
 	cout << "=============================" << endl;
 
 	dispHand(h);
+	cout << endl;
 
 	//============================deadwood check================================
 
@@ -1110,25 +1113,27 @@ bool userPick(Hand &h, stack<Card> &draw, stack<Card> &discard) {
 		cout << "You have a total of " << h.deadPoints << " points in your deadwood pile. Would you like to knock? [Y/N]" << endl;
 		cin >> userKnockChoice;
 
-		if (userKnockChoice == ('y' || 'Y')) {
+		if ((userKnockChoice == 'y') || (userKnockChoice == 'Y')) {
+			cout << "YOU WANNA KNOCK" << endl;//==============
 			knockChoice = true;
 		}
 	}
 
 	if (knockChoice) {
+		cout << "KNOCK IS TRUE" << endl;//==================
+
 		return knockChoice;
 	}
 	//if deadwood > 10 or user does not want to knock
 	else {
 
-		cout << "The current card on top of the discard pile is " << discard.top() << ". Would you like to choose it? [Y/N]" << endl;
-		
+		cout << "The current card on top of the discard pile is " << discard << ". Would you like to choose it? [Y/N]" << endl;
+
 		cin >> userDiscardChoice;
 
 		if ((userDiscardChoice == 'y') || (userDiscardChoice == 'Y')) {
-			tempUserCard = discard.top();
+			tempUserCard = discard;
 
-			discard.pop();
 			discardChoice = true;
 		}
 		else if ((userDiscardChoice == 'n') || (userDiscardChoice == 'N')) {
@@ -1149,94 +1154,84 @@ bool userPick(Hand &h, stack<Card> &draw, stack<Card> &discard) {
 		}
 
 		if (userCardDrop < 11) {
-			discard.push(h.all.at(userCardDrop - 1));
+			discard = h.all.at(userCardDrop - 1);
 
 			h.all.erase(h.all.begin() + (userCardDrop - 1));
 
 			h.all.push_back(tempUserCard);
 		}
-		else if (userCardDrop == 11) {
-			discard.push(tempUserCard);
+		else {
+			discard = tempUserCard;
 		}
-
-		//sortHand(h);
 
 		clear();
 	}
+
+	return knockChoice;
 }
 
 void dispHand(Hand &h) {
 	for (int i = 0; i < h.all.size(); i++) {
 		cout << h.all.at(i) << " ";
 	}
-	
-	/*
-	if (h.set.size() > 0) {
-		for (int i = 0; i < h.set.size(); i++) {
-			cout << h.set.at(i) << " ";
-		}
-	}
-	
-	
-	if (h.run.size() > 0) {
-		for (int i = 0; i < h.run.size(); i++) {
-			cout << h.run.at(i) << " ";
-		}
-	}
-	
-	if (h.deadwood.size() > 0) {
-		for (int i = 0; i < h.deadwood.size(); i++) {
-			cout << h.deadwood.at(i) << " ";
-		}
-	}
-	*/
-	
-
 	cout << endl;
 }
 
-void AIPick(Hand &h, stack <Card> &draw, stack <Card> &discard) {
+bool AIPick(Hand &h, stack <Card> &draw, Card &discard) {
 	Hand TempHand;
+	Card tempCard;
 	int deadwoodCount, deadwoodSort;
+	bool knockChoice = false;		//true if computer decides to knock
+
+	sortHand(h);
 
 	deadwoodCount = h.deadwood.size();
 
-	memcpy(&TempHand, &h, sizeof Hand);
+	for (int i = 0; i < h.all.size(); i++) {
+		TempHand.all.push_back(h.all.at(i));
+	}
 
-	dispHand(TempHand);	//*********
-	
-	TempHand.all.push_back(draw.top());
-	
-	dispHand(TempHand);				//**************
-	cout << "pt 1" << endl; //===============
-	
+
+	tempCard = discard;
+
+	TempHand.all.push_back(tempCard);
+
 	sortHand(TempHand);
-	
-	cout << "part 1" << endl;
 
-	dispHand(TempHand);			//******************
-	
 	deadwoodSort = TempHand.deadwood.size();
 
-	cout << "Part 2" << endl; //================
-	
 	if (deadwoodSort > deadwoodCount) {
 		h.all.push_back(draw.top());
+		draw.pop();
 	}
 	else {
-		h.all.push_back(discard.top());
+		h.all.push_back(discard);
 	}
-	
-	cout << "Part 3" << " ";		//******************
-	dispHand(h);					//******************
-	cout << "end ai" << endl;
-}
 
-//Code for the AI discarding 
+	sortHand(h);
 
-void AIDiscard(Hand &h, stack <Card> &discard) {
-	discard.push(h.deadwood.back());
-	h.deadwood.pop_back();
-	cout << "Part 4" << " ";		//******************
-	dispHand(h);					//******************
+	//===========DISCARD=================//
+	int highVal = 0;
+	int posOfVal = 0;
+
+
+	for (int i = h.deadwood.size() - 1; i >= 0; i--) {
+		if (h.deadwood.at(i).val > highVal) {
+			posOfVal = i + h.set.size() + h.run.size();
+
+			highVal = h.deadwood.at(i).val;
+		}
+	}
+
+	discard = h.all.at(posOfVal);
+	h.all.erase(h.all.end() - (11 - posOfVal));
+
+	sortHand(h);
+
+	if (h.deadPoints <= 10) {
+		knockChoice = true;
+	}
+
+
+	return knockChoice;
 }
