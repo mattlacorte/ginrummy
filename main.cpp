@@ -72,7 +72,7 @@ void instructions();
 
 void clear();
 
-void endMenu(int compScore, int userScore);
+void endMenu(int compScore, int userScore, Hand &compHand, Hand &userHand);
 
 void pause();
 
@@ -206,6 +206,11 @@ int main()
 			cout << "Comp hand ---- ";
 			dispHand(compHand);
 		}
+
+		cout << "Your hand ---- ";
+		dispHand(userHand);
+		cout << "Comp hand ---- ";
+		dispHand(compHand);
 	} while ((userScore < winningScore) && (compScore < winningScore));
 
 	cout << "Your hand ---- ";
@@ -213,7 +218,7 @@ int main()
 	cout << "Comp hand ---- ";
 	dispHand(compHand);
 
-	endMenu(compScore, userScore);
+	endMenu(compScore, userScore, compHand, userHand);
 
 	return 0;
 }
@@ -1049,7 +1054,7 @@ void pause() {
 	system("pause");
 }
 
-void endMenu(int compScore, int userScore) {
+void endMenu(int compScore, int userScore, Hand &compHand, Hand &userHand) {
 	clear();
 
 	int tmpCompScore = compScore;
@@ -1074,6 +1079,13 @@ void endMenu(int compScore, int userScore) {
 	cout << endl;
 	cout << "You ----------- " << tmpUserScore << endl;
 	cout << "Computer ------ " << tmpCompScore << endl;
+	cout << endl;
+
+	cout << "Final Hands:" << endl;
+	cout << "You ----------- ";
+	dispHand(userHand);
+	cout << "Computer ------ ";
+	dispHand(compHand);
 	cout << endl << endl;
 
 	cout << "Thanks for playing!" << endl;
