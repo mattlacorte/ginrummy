@@ -1,10 +1,10 @@
-/* * * * * * * * * * * * * * 
- * Created by Matt LaCorte, Alfred Joseph, Jakob Pasley, & Ludgi Eugene
- *
- * ECGR 2104 Final Project
- *
- * Gin Rummy
- */
+/* * * * * * * * * * * * * *
+* Created by Matt LaCorte, Alfred Joseph, Jakob Pasley, & Ludgi Eugene
+*
+* ECGR 2104 Final Project
+*
+* Gin Rummy
+*/
 
 
 #include "stdafx.h"
@@ -221,11 +221,6 @@ int main()
 		cout << "Comp hand ---- ";
 		dispHand(compHand);
 	} while ((userScore < winningScore) && (compScore < winningScore));
-
-	cout << "Your hand ---- ";
-	dispHand(userHand);
-	cout << "Comp hand ---- ";
-	dispHand(compHand);
 
 	endMenu(compScore, userScore, compHand, userHand);
 
@@ -1135,13 +1130,11 @@ bool userPick(Hand &h, stack<Card> &draw, Card &discard) {
 		cin >> userKnockChoice;
 
 		if ((userKnockChoice == 'y') || (userKnockChoice == 'Y')) {
-			cout << "YOU WANNA KNOCK" << endl;//==============
 			knockChoice = true;
 		}
 	}
 
 	if (knockChoice) {
-		cout << "KNOCK IS TRUE" << endl;//==================
 
 		return knockChoice;
 	}
