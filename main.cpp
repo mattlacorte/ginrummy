@@ -1,3 +1,12 @@
+/* * * * * * * * * * * * * * 
+ * Created by Matt LaCorte, Alfred Joseph, Jakob Pasley, & Ludgi Eugene
+ *
+ * ECGR 2104 Final Project
+ *
+ * Gin Rummy
+ */
+
+
 #include "stdafx.h"
 #include <iostream>
 #include <algorithm>
